@@ -12,26 +12,33 @@
     <button v-if="isLoggedIn" class="mx-2 float-right" @click="logout">
       Logout
     </button>
-    <button v-else class="mx-2 float-right" @click="$emit('open-login-modal')">
-      Login
-    </button>
+    <div v-else class="float-right">
+      <button class="mx-2" @click="$emit('open-login-modal')">Login</button>
+      <button class="mx-2" @click="$emit('open-register-modal')">
+        Register
+      </button>
+    </div>
   </nav>
 </template>
 
 <script>
+import { computed } from "vue";
+import { useStore } from "vuex";
 import firebase from "../utilities/firebase";
 
 export default {
-  props: ["isLoggedIn"],
   setup() {
     const list = [
       { title: "Home", to: "/" },
       { title: "Training Load", to: "/training-load" },
     ];
 
+    const store = useStore();
+    const isLoggedIn = computed(() => store.state.isLoggedIn);
+
     const logout = () => firebase.auth().signOut();
 
-    return { list, logout };
+    return { list, isLoggedIn, logout };
   },
 };
 </script>

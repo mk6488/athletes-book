@@ -1,7 +1,7 @@
 <template>
   <section class="flex flex-wrap w-full">
     <div class="m-auto">
-      <h1 class="text-5xl my-5 text-center text-indigo-700">Training Load</h1>
+      <h1 class="text-4xl my-5 text-center text-indigo-700">Training Load</h1>
       <div class="flex flex-wrap">
         <div
           class="w-1/5 h-12 p-1"
