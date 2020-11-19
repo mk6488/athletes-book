@@ -1,25 +1,18 @@
 <template>
-  <AppHeader
-    :isLoggedIn="isLoggedIn"
-    @open-login-modal="loginIsOpen = true"
-    @open-register-modal="registerIsOpen = true"
-  />
+  <AppHeader />
   <div class="w-full flex">
     <router-view></router-view>
   </div>
   <teleport to="body">
-    <LoginModal v-if="loginIsOpen" @close-login-modal="loginIsOpen = false" />
-    <RegisterModal
-      v-if="registerIsOpen"
-      @close-register-modal="registerIsOpen = false"
-    />
+    <LoginModal />
+    <RegisterModal />
   </teleport>
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { onMounted } from "vue";
 import firebase from "./utilities/firebase";
-import store from "./store/index";
+import { useStore } from "vuex";
 
 import AppHeader from "./components/AppHeader";
 import LoginModal from "./components/LoginModal";
@@ -33,10 +26,7 @@ export default {
   },
 
   setup() {
-    const loginIsOpen = ref(false);
-    const registerIsOpen = ref(false);
-    const isLoggedIn = ref(false);
-    const authUser = ref({});
+    const store = useStore();
 
     onMounted(() => {
       firebase.auth().onAuthStateChanged((user) => {
@@ -50,7 +40,7 @@ export default {
       });
     });
 
-    return { loginIsOpen, registerIsOpen, isLoggedIn, authUser };
+    return {};
   },
 };
 </script>
