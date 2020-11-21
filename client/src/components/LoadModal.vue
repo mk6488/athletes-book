@@ -80,6 +80,7 @@
 
 <script>
 import { ref, computed } from "vue";
+import TrainingLoadService from "../services/TrainingLoadService";
 
 export default {
   props: ["athlete"],
@@ -135,11 +136,16 @@ export default {
 
     const close = () => emit("close");
     const updateType = (name) => (type.value = name);
-    const submit = () => {
+    const submit = async () => {
       if (type.value) {
-        console.log(
-          `athlete: ${athleteName.value}, type: ${type.value}, duration: ${duration.value}, RPE: ${rpe.value}, load: ${load.value}`
+        await TrainingLoadService.createOne(
+          athleteName.value,
+          type.value,
+          duration.value,
+          rpe.value,
+          load.value
         );
+        close();
       } else {
         alert("no training type selected!");
       }

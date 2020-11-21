@@ -2,28 +2,26 @@ import axios from 'axios'
 
 const url = 'http://localhost:5000/api/training-loads/'
 
-class TrainingLoad {
+class TrainingLoadService {
   // Get
   static getAll() {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const res = await axios.get(url)
-        const data = res.data
-        resolve(
-          data.map(trainingLoad => ({
+    return new Promise((resolve, reject) => {
+      axios.get(url)
+        .then(({
+          data
+        }) => {
+          resolve(data.map(trainingLoad => ({
             ...trainingLoad,
             createdAt: new Date(trainingLoad.createdAt)
-          }))
-        )
-      } catch (err) {
-        reject(err)
-      }
+          })))
+        })
+        .catch((error) => reject(error))
     })
   }
 
   // Create
   static createOne(athlete, type, duration, rpe, load) {
-    return axios.trainingLoad(url, {
+    return axios.post(url, {
       athlete,
       type,
       duration,
@@ -38,4 +36,4 @@ class TrainingLoad {
   }
 }
 
-export default TrainingLoad
+export default TrainingLoadService

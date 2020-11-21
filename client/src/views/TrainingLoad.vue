@@ -68,7 +68,7 @@
 <script>
 import { ref, onMounted } from "vue";
 import LoadModal from "../components/LoadModal";
-import TrainingLoad from "../services/TrainingLoad";
+import TrainingLoadService from "../services/TrainingLoadService";
 
 export default {
   components: { LoadModal },
@@ -101,7 +101,7 @@ export default {
 
     onMounted(async () => {
       try {
-        trainingLoads.value = await TrainingLoad.getAll();
+        trainingLoads.value = await TrainingLoadService.getAll();
       } catch (err) {
         error.value = err.message;
       }
