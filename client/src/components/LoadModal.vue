@@ -130,11 +130,14 @@ export default {
     const rpe = ref(3);
     // const date = new Date().toLocaleString().split(",")[0];
     const athleteName = computed(
-      () => props.athlete.firstName + " " + props.athlete.LastName
+      () => props.athlete.firstName + " " + props.athlete.lastName
     );
     const load = computed(() => duration.value * rpe.value);
 
-    const close = () => emit("close");
+    const close = () => {
+      emit("close");
+      emit("fetch");
+    };
     const updateType = (name) => (type.value = name);
     const submit = async () => {
       if (type.value) {

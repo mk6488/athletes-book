@@ -1,12 +1,10 @@
-import axios from 'axios'
-
-const url = 'http://localhost:5000/api/training-loads/'
+import axios from '../plugins/axios'
 
 class TrainingLoadService {
   // Get
   static getAll() {
     return new Promise((resolve, reject) => {
-      axios.get(url)
+      axios.get('training-loads/')
         .then(({
           data
         }) => {
@@ -21,7 +19,7 @@ class TrainingLoadService {
 
   // Create
   static createOne(athlete, type, duration, rpe, load) {
-    return axios.post(url, {
+    return axios.post('training-loads/', {
       athlete,
       type,
       duration,
@@ -32,7 +30,7 @@ class TrainingLoadService {
 
   // Delete
   static deleteOne(id) {
-    return axios.delete(`${url}${id}`)
+    return axios.delete(`training-loads/${id}`)
   }
 }
 
