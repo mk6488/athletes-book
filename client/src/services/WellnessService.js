@@ -1,10 +1,13 @@
-import axios from '../plugins/axios'
+import axios from 'axios'
+// import axios from '../plugins/axios'
+
+const url = 'api/wellness'
 
 class WellnessService {
   // Get
   static getAll() {
     return new Promise((resolve, reject) => {
-      axios.get('wellness/')
+      axios.get(url)
         .then(({
           data
         }) => {
@@ -19,7 +22,7 @@ class WellnessService {
 
   // Create
   static createOne(athlete, sleet, stress, fatigue, soreness, nutrition, average) {
-    return axios.post('wellness/', {
+    return axios.post(url, {
       athlete,
       sleet,
       stress,
