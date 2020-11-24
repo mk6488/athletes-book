@@ -13,7 +13,10 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
   const collection = await loadCollection()
   await collection.insertOne({
-    athlete: req.body.athlete,
+    athleteId: req.body.athleteId,
+    trainingDate: req.body.trainingDate,
+    weekNumber: req.body.weekNumber,
+    athleteName: req.body.athleteName,
     type: req.body.type,
     duration: req.body.duration,
     rpe: req.body.rpe,

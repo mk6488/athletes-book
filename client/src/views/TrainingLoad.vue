@@ -2,7 +2,6 @@
   <section class="flex flex-wrap w-full">
     <div class="m-auto">
       <h1 class="text-4xl my-5 text-center text-indigo-700">Training Load</h1>
-
       <!-- Athlete Buttons -->
       <div class="flex flex-wrap">
         <div
@@ -33,6 +32,7 @@
           <thead>
             <tr>
               <th class="border border-indigo-600">Date</th>
+              <th class="border border-indigo-600">Week #</th>
               <th class="border border-indigo-600">Athlete</th>
               <th class="border border-indigo-600">Type</th>
               <th class="border border-indigo-600">Duration</th>
@@ -44,12 +44,13 @@
           <tbody>
             <tr v-for="load in state.trainingLoads" :key="load.id">
               <td class="border border-indigo-600 text-center text-xs">
-                {{
-                  `${load.createdAt.getDate()}/${load.createdAt.getMonth()}/${load.createdAt.getFullYear()}`
-                }}
+                {{ load.trainingDate }}
               </td>
               <td class="border border-indigo-600 text-center text-xs">
-                {{ load.athlete }}
+                {{ load.weekNumber }}
+              </td>
+              <td class="border border-indigo-600 text-center text-xs">
+                {{ load.athleteName }}
               </td>
               <td class="border border-indigo-600 text-center text-xs">
                 {{ load.type }}
@@ -65,89 +66,18 @@
               </td>
               <td class="border border-indigo-600 text-center text-xs">
                 <div class="flex justify-evenly">
-                  <Button><i class="fa fa-pencil text-orange-500"></i></Button>
-                  <Button
-                    ><i
+                  <button><i class="fa fa-pencil text-orange-500"></i></button>
+                  <button>
+                    <i
                       class="fas fa-trash text-red-800"
                       @click="deleteTrainingLoad(load._id)"
-                    ></i
-                  ></Button>
+                    ></i>
+                  </button>
                 </div>
               </td>
             </tr>
           </tbody>
         </table>
-
-        <!-- Pagination -->
-        <div
-          class="mx-auto flex flex-wrap my-6 justify-center items-center pt-6"
-        >
-          <ul class="flex items-center justify-center">
-            <li
-              class="mr-3 p-1 cursor-pointer rounded-full border-solid border-2 border-gray-400 hover:bg-indigo-100"
-            >
-              <svg
-                width="24"
-                height="24"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="#818CF8"
-                class="transform transition-transform duration-500 ease-in-out"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
-                ></path>
-              </svg>
-            </li>
-            <li
-              class="p-1 mr-3 rounded-full bg-indigo-500 h-8 w-8 text-white flex items-center justify-center cursor-pointer hover:bg-indigo-700"
-            >
-              1
-            </li>
-            <li
-              class="p-1 mr-3 rounded-full cursor-pointer h-8 w-8 border-solid border-2 flex items-center justify-center border-gray-400 hover:bg-indigo-100"
-            >
-              2
-            </li>
-            <li
-              class="p-1 mr-3 rounded-full cursor-pointer h-8 w-8 border-solid border-2 flex items-center justify-center border-gray-400 hover:bg-indigo-100"
-            >
-              3
-            </li>
-            <li
-              class="p-1 mr-3 rounded-full cursor-pointer h-8 w-8 border-solid border-2 flex items-center justify-center border-gray-400 hover:bg-indigo-100"
-            >
-              4
-            </li>
-            <li
-              class="p-1 mr-3 rounded-full cursor-pointer h-8 w-8 border-solid border-2 flex items-center justify-center border-gray-400 hover:bg-indigo-100"
-            >
-              5
-            </li>
-            <li
-              class="p-1 mr-3 rounded-full cursor-pointer border-solid border-2 border-gray-400 hover:bg-indigo-100"
-            >
-              <svg
-                width="24"
-                height="24"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="#818CF8"
-                class="transform transition-transform duration-500 ease-in-out"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M13 5l7 7-7 7M5 5l7 7-7 7"
-                ></path>
-              </svg>
-            </li>
-          </ul>
-        </div>
       </div>
     </div>
   </section>

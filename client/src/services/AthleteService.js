@@ -1,13 +1,11 @@
-import axios from 'axios'
-// import axios from '../plugins/axios'
+import axios from '../plugins/axios'
 
-const url = 'api/athletes'
 
 class AthleteService {
   // Get
   static getAll() {
     return new Promise((resolve, reject) => {
-      axios.get(url)
+      axios.get('athletes')
         .then(({
           data
         }) => {
@@ -22,7 +20,7 @@ class AthleteService {
 
   // Create
   static createOne(firstName, lastName) {
-    return axios.post(url, {
+    return axios.post('athletes', {
       firstName,
       lastName
     })

@@ -11,6 +11,7 @@
             <div class="text-5xl font-light text-indigo-700 text-center mb-2">
               {{ athleteName }}
             </div>
+            <div><input type="text" v-model="trainingDate" /></div>
             <!-- Type -->
             <div>
               <div class="mx-auto py-1 flex justify-between flex-wrap">
@@ -125,6 +126,7 @@ export default {
       { number: 9, title: "Really Really Hard", color: "text-orange-500" },
       { number: 10, title: "Maximal", color: "text-red-700" },
     ];
+    const trainingDate = ref(new Date().toLocaleString().split(",")[0]);
     const type = ref("");
     const duration = ref(60);
     const rpe = ref(3);
@@ -134,6 +136,17 @@ export default {
     );
     const load = computed(() => duration.value * rpe.value);
 
+    const trainingDateToIsoDate = trainingDate.value;
+    const parts = trainingDateToIsoDate.split("/");
+    const mydate = new Date(parts[2], parts[1] - 1, parts[0]);
+
+    Date.prototype.getWeek = function () {
+      var oneSep = new Date(this.getFullYear(), 8, 7);
+      return Math.ceil(((this - oneSep) / 86400000 + oneSep.getDay() + 1) / 7);
+    };
+
+    const weekNumber = computed(() => new Date(mydate).getWeek());
+
     const close = () => {
       emit("close");
       emit("fetch");
@@ -142,6 +155,9 @@ export default {
     const submit = async () => {
       if (type.value) {
         await TrainingLoadService.createOne(
+          props.athlete._id,
+          trainingDate.value,
+          weekNumber.value,
           athleteName.value,
           type.value,
           duration.value,
@@ -155,6 +171,7 @@ export default {
     };
 
     return {
+      trainingDate,
       types,
       type,
       duration,
