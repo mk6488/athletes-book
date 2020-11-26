@@ -1,12 +1,14 @@
 <template>
-  <AppHeader />
-  <div class="w-full flex">
-    <router-view></router-view>
+  <div>
+    <AppHeader />
+    <div class="w-full flex">
+      <router-view></router-view>
+    </div>
+    <teleport to="body">
+      <LoginModal />
+      <RegisterModal />
+    </teleport>
   </div>
-  <teleport to="body">
-    <LoginModal />
-    <RegisterModal />
-  </teleport>
 </template>
 
 <script>

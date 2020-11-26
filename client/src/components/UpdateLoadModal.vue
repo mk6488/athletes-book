@@ -80,11 +80,11 @@
 </template>
 
 <script>
-import { ref, computed } from "vue";
+import { computed } from "vue";
 import TrainingLoadService from "../services/TrainingLoadService";
 
 export default {
-  props: ["athleteData"],
+  props: ["loadData"],
   setup(props, { emit }) {
     const types = [
       {
@@ -126,14 +126,11 @@ export default {
       { number: 9, title: "Really Really Hard", color: "text-orange-500" },
       { number: 10, title: "Maximal", color: "text-red-700" },
     ];
-    const trainingDate = ref(new Date().toLocaleString().split(",")[0]);
-    const type = ref("");
-    const duration = ref(60);
-    const rpe = ref(3);
-    // const date = new Date().toLocaleString().split(",")[0];
-    const athleteName = computed(
-      () => props.athleteData.firstName + " " + props.athleteData.lastName
-    );
+    const trainingDate = computed(() => props.loadData.trainingDate);
+    const athleteName = computed(() => props.loadData.athleteName);
+    const type = computed(() => props.loadData.type);
+    const duration = computed(() => props.loadData.duration);
+    const rpe = computed(() => props.loadData.rpe);
     const load = computed(() => duration.value * rpe.value);
 
     const trainingDateToIsoDate = trainingDate.value;
@@ -141,8 +138,10 @@ export default {
     const mydate = new Date(parts[2], parts[1] - 1, parts[0]);
 
     Date.prototype.getWeek = function () {
-      var oneSep = new Date(this.getFullYear(), 8, 7);
-      return Math.ceil(((this - oneSep) / 86400000 + oneSep.getDay() + 1) / 7);
+      var sevenSep = new Date(this.getFullYear(), 8, 7);
+      return Math.ceil(
+        ((this - sevenSep) / 86400000 + sevenSep.getDay() + 1) / 7
+      );
     };
 
     const weekNumber = computed(() => new Date(mydate).getWeek());
@@ -154,11 +153,12 @@ export default {
     const updateType = (name) => (type.value = name);
     const submit = async () => {
       if (type.value) {
+        // TODO: Create updateOne and replace createOne
         await TrainingLoadService.createOne(
-          props.athleteData._id,
+          props.loadData.athleteId,
           trainingDate.value,
           weekNumber.value,
-          athleteName.value,
+          props.loadData.athleteName,
           type.value,
           duration.value,
           rpe.value,

@@ -26,6 +26,25 @@ router.post('/', async (req, res) => {
   res.status(201).send()
 })
 
+// Update
+router.put('/:id', async (req, res) => {
+  const collection = await loadCollection()
+  await collection.updateOne({
+    _id: new mongodb.ObjectID(req.params.id)
+  }, {
+    $set: {
+      trainingDate: req.body.trainingDate,
+      weekNumber: req.body.weekNumber,
+      type: req.body.type,
+      duration: req.body.duration,
+      rpe: req.body.rpe,
+      load: req.body.load,
+      updatedAt: new Date()
+    }
+  })
+  res.status(201).send()
+})
+
 // Delete
 router.delete('/:id', async (req, res) => {
   const collection = await loadCollection()

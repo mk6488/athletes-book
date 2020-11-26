@@ -10,19 +10,13 @@
           :key="athlete.firstName"
         >
           <button
-            @click="pressed(athlete)"
+            @click="athletePressed(athlete)"
             class="w-full h-full bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white border border-indigo-500 hover:border-transparent rounded"
           >
             {{ athlete.firstName }}
           </button>
         </div>
       </div>
-      <LoadModal
-        v-if="modalIsOpen"
-        @close="modalIsOpen = false"
-        @fetch="reloadData"
-        :athlete="selectedAthlete"
-      />
 
       <!-- List of Training Loads -->
       <div class="mt-10">
@@ -66,11 +60,16 @@
               </td>
               <td class="border border-indigo-600 text-center text-xs">
                 <div class="flex justify-evenly">
-                  <button><i class="fa fa-pencil text-orange-500"></i></button>
+                  <button>
+                    <i
+                      class="fa fa-pencil text-orange-500"
+                      @click="updatePressed(load)"
+                    ></i>
+                  </button>
                   <button>
                     <i
                       class="fas fa-trash text-red-800"
-                      @click="deleteTrainingLoad(load._id)"
+                      @click="deletePressed(load._id)"
                     ></i>
                   </button>
                 </div>
@@ -80,36 +79,58 @@
         </table>
       </div>
     </div>
+    <teleport to="body">
+      <LoadModal
+        v-if="modalIsOpen"
+        @close="modalIsOpen = false"
+        @fetch="reloadData"
+        :athleteData="selectedAthlete"
+      />
+      <UpdateLoadModal
+        v-if="updateModalIsOpen"
+        @close="updateModalIsOpen = false"
+        @fetch="reloadData"
+        :loadData="selectedLoad"
+      />
+    </teleport>
   </section>
 </template>
 
 <script>
 import { ref, reactive, onMounted } from "vue";
 import LoadModal from "../components/LoadModal";
+import UpdateLoadModal from "../components/UpdateLoadModal";
 import TrainingLoadService from "../services/TrainingLoadService";
 import AthleteService from "../services/AthleteService";
 
 export default {
-  components: { LoadModal },
+  components: { LoadModal, UpdateLoadModal },
   setup() {
     const state = reactive({
       trainingLoads: [],
       athletes: {},
     });
     const error = ref("");
-    const selectedAthlete = ref("");
+    const selectedAthlete = ref({});
+    const selectedLoad = ref({});
     const modalIsOpen = ref(false);
-
-    const pressed = (name) => {
-      modalIsOpen.value = true;
-      selectedAthlete.value = name;
-    };
+    const updateModalIsOpen = ref(false);
 
     const reloadData = async () => {
       state.trainingLoads = await TrainingLoadService.getAll();
     };
 
-    const deleteTrainingLoad = async (id) => {
+    const athletePressed = (name) => {
+      modalIsOpen.value = true;
+      selectedAthlete.value = name;
+    };
+
+    const updatePressed = (load) => {
+      updateModalIsOpen.value = true;
+      selectedLoad.value = load;
+    };
+
+    const deletePressed = async (id) => {
       await TrainingLoadService.deleteOne(id);
       state.trainingLoads = await TrainingLoadService.getAll();
     };
@@ -127,10 +148,13 @@ export default {
       state,
       error,
       selectedAthlete,
-      pressed,
-      reloadData,
-      deleteTrainingLoad,
+      selectedLoad,
       modalIsOpen,
+      updateModalIsOpen,
+      reloadData,
+      athletePressed,
+      updatePressed,
+      deletePressed,
     };
   },
 };
