@@ -26,6 +26,14 @@ class AthleteService {
     })
   }
 
+  // Update
+  static updateOne(id, firstName, lastName) {
+    return axios.put(`athletes/${id}`, {
+      firstName,
+      lastName
+    })
+  }
+
   // Delete
   static deleteOne(id) {
     return axios.delete(`athletes/${id}`)

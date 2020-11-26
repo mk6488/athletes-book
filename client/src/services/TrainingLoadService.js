@@ -31,6 +31,18 @@ class TrainingLoadService {
     })
   }
 
+  // Update
+  static updateOne(id, trainingDate, weekNumber, type, duration, rpe, load) {
+    return axios.put(`training-loads/${id}`, {
+      trainingDate,
+      weekNumber,
+      type,
+      duration,
+      rpe,
+      load
+    })
+  }
+
   // Delete
   static deleteOne(id) {
     return axios.delete(`training-loads/${id}`)

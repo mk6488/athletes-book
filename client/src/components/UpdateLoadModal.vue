@@ -18,17 +18,21 @@
                 <div
                   v-for="type in types"
                   :key="type.text"
-                  class="w-1/6 rounded shadow-md m-1 p-2"
-                  :class="`${type.color} hover:${type.hover}`"
-                  tabindex="0"
+                  class="w-1/6 rounded m-1 p-2 cursor-pointer"
+                  :class="[
+                    `${type.color}`,
+                    activeType === type.text ? 'border-2 border-black' : '',
+                  ]"
                   @click="updateType(type.text)"
                 >
-                  <p class="text-center text-xs text-white">{{ type.text }}</p>
+                  <p class="text-center text-xs text-white">
+                    {{ type.text }}
+                  </p>
                 </div>
               </div>
               <div class="h-5">
                 <p v-if="!type" class="text-xs text-red-600 font-bold">
-                  ** please select training type **
+                  ** select a training type **
                 </p>
               </div>
             </div>
@@ -80,7 +84,7 @@
 </template>
 
 <script>
-import { computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import TrainingLoadService from "../services/TrainingLoadService";
 
 export default {
@@ -126,48 +130,59 @@ export default {
       { number: 9, title: "Really Really Hard", color: "text-orange-500" },
       { number: 10, title: "Maximal", color: "text-red-700" },
     ];
-    const trainingDate = computed(() => props.loadData.trainingDate);
-    const athleteName = computed(() => props.loadData.athleteName);
-    const type = computed(() => props.loadData.type);
-    const duration = computed(() => props.loadData.duration);
-    const rpe = computed(() => props.loadData.rpe);
+    const trainingDate = ref(new Date().toLocaleString().split(",")[0]);
+    const weekNumber = ref(1);
+    const type = ref("");
+    const duration = ref(60);
+    const rpe = ref(3);
+    const activeType = ref("");
+    const athleteName = ref("Athlete Name");
     const load = computed(() => duration.value * rpe.value);
 
-    const trainingDateToIsoDate = trainingDate.value;
-    const parts = trainingDateToIsoDate.split("/");
-    const mydate = new Date(parts[2], parts[1] - 1, parts[0]);
+    onMounted(() => {
+      trainingDate.value = props.loadData.trainingDate;
+      athleteName.value = props.loadData.athleteName;
+      type.value = props.loadData.type;
+      duration.value = props.loadData.duration;
+      rpe.value = props.loadData.rpe;
+      activeType.value = props.loadData.type;
+    });
 
-    Date.prototype.getWeek = function () {
-      var sevenSep = new Date(this.getFullYear(), 8, 7);
-      return Math.ceil(
-        ((this - sevenSep) / 86400000 + sevenSep.getDay() + 1) / 7
-      );
+    const getWeekNumber = () => {
+      const trainingDateToIsoDate = trainingDate.value;
+      const parts = trainingDateToIsoDate.split("/");
+      const mydate = new Date(parts[2], parts[1] - 1, parts[0]);
+
+      weekNumber.value = new Date(mydate).getWeek();
     };
 
-    const weekNumber = computed(() => new Date(mydate).getWeek());
+    Date.prototype.getWeek = function () {
+      var seasonStart = new Date(this.getFullYear(), 8, 7);
+      return Math.ceil(
+        ((this - seasonStart) / 86400000 + seasonStart.getDay() + 1) / 7
+      );
+    };
 
     const close = () => {
       emit("close");
       emit("fetch");
     };
-    const updateType = (name) => (type.value = name);
+    const updateType = (name) => {
+      type.value = name;
+      activeType.value = name;
+    };
     const submit = async () => {
-      if (type.value) {
-        // TODO: Create updateOne and replace createOne
-        await TrainingLoadService.createOne(
-          props.loadData.athleteId,
-          trainingDate.value,
-          weekNumber.value,
-          props.loadData.athleteName,
-          type.value,
-          duration.value,
-          rpe.value,
-          load.value
-        );
-        close();
-      } else {
-        alert("no training type selected!");
-      }
+      getWeekNumber();
+      await TrainingLoadService.updateOne(
+        props.loadData._id,
+        trainingDate.value,
+        weekNumber.value,
+        type.value,
+        duration.value,
+        rpe.value,
+        load.value
+      );
+      close();
     };
 
     return {
@@ -179,6 +194,7 @@ export default {
       rpeText,
       load,
       athleteName,
+      activeType,
       close,
       updateType,
       submit,

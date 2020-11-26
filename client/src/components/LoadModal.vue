@@ -18,17 +18,21 @@
                 <div
                   v-for="type in types"
                   :key="type.text"
-                  class="w-1/6 rounded shadow-md m-1 p-2"
-                  :class="`${type.color} hover:${type.hover}`"
-                  tabindex="0"
+                  class="w-1/6 rounded m-1 p-2 cursor-pointer"
+                  :class="[
+                    `${type.color}`,
+                    activeType === type.text ? 'border-2 border-black' : '',
+                  ]"
                   @click="updateType(type.text)"
                 >
-                  <p class="text-center text-xs text-white">{{ type.text }}</p>
+                  <p class="text-center text-xs text-white">
+                    {{ type.text }}
+                  </p>
                 </div>
               </div>
               <div class="h-5">
                 <p v-if="!type" class="text-xs text-red-600 font-bold">
-                  ** please select training type **
+                  ** select a training type **
                 </p>
               </div>
             </div>
@@ -127,33 +131,42 @@ export default {
       { number: 10, title: "Maximal", color: "text-red-700" },
     ];
     const trainingDate = ref(new Date().toLocaleString().split(",")[0]);
+    const weekNumber = ref(1);
     const type = ref("");
     const duration = ref(60);
     const rpe = ref(3);
-    // const date = new Date().toLocaleString().split(",")[0];
+    const activeType = ref("");
     const athleteName = computed(
-      () => props.athleteData.firstName + " " + props.athleteData.lastName
+      () => `${props.athleteData.firstName} ${props.athleteData.lastName}`
     );
     const load = computed(() => duration.value * rpe.value);
 
-    const trainingDateToIsoDate = trainingDate.value;
-    const parts = trainingDateToIsoDate.split("/");
-    const mydate = new Date(parts[2], parts[1] - 1, parts[0]);
+    const getWeekNumber = () => {
+      const trainingDateToIsoDate = trainingDate.value;
+      const parts = trainingDateToIsoDate.split("/");
+      const mydate = new Date(parts[2], parts[1] - 1, parts[0]);
 
-    Date.prototype.getWeek = function () {
-      var oneSep = new Date(this.getFullYear(), 8, 7);
-      return Math.ceil(((this - oneSep) / 86400000 + oneSep.getDay() + 1) / 7);
+      weekNumber.value = new Date(mydate).getWeek();
     };
 
-    const weekNumber = computed(() => new Date(mydate).getWeek());
+    Date.prototype.getWeek = function () {
+      var seasonStart = new Date(this.getFullYear(), 8, 7);
+      return Math.ceil(
+        ((this - seasonStart) / 86400000 + seasonStart.getDay() + 1) / 7
+      );
+    };
 
     const close = () => {
       emit("close");
       emit("fetch");
     };
-    const updateType = (name) => (type.value = name);
+    const updateType = (name) => {
+      type.value = name;
+      activeType.value = name;
+    };
     const submit = async () => {
       if (type.value) {
+        getWeekNumber();
         await TrainingLoadService.createOne(
           props.athleteData._id,
           trainingDate.value,
@@ -172,13 +185,14 @@ export default {
 
     return {
       trainingDate,
+      activeType,
       types,
       type,
       duration,
       rpe,
       rpeText,
-      load,
       athleteName,
+      load,
       close,
       updateType,
       submit,

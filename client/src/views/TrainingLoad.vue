@@ -126,8 +126,8 @@ export default {
     };
 
     const updatePressed = (load) => {
-      updateModalIsOpen.value = true;
       selectedLoad.value = load;
+      updateModalIsOpen.value = true;
     };
 
     const deletePressed = async (id) => {

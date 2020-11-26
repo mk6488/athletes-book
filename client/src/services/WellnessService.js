@@ -31,6 +31,18 @@ class WellnessService {
     })
   }
 
+  // Update
+  static updateOne(id, sleep, stress, fatigue, soreness, nutrition, average) {
+    return axios.put(`training-loads/${id}`, {
+      sleep,
+      stress,
+      fatigue,
+      soreness,
+      nutrition,
+      average
+    })
+  }
+
   // Delete
   static deleteOne(id) {
     return axios.delete(`wellness/${id}`)
