@@ -6,7 +6,9 @@ const router = express.Router()
 // Get 
 router.get('/', async (req, res) => {
   const collection = await loadCollection()
-  res.send(await collection.find({}).toArray())
+  res.send(await collection.find({}).sort({
+    "trainingDate": -1
+  }).toArray())
 })
 
 // Add

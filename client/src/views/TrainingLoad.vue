@@ -38,7 +38,7 @@
           <tbody>
             <tr v-for="load in state.trainingLoads" :key="load.id">
               <td class="border border-indigo-600 text-center text-xs">
-                {{ load.trainingDate }}
+                {{ correctDate(load.trainingDate) }}
               </td>
               <td class="border border-indigo-600 text-center text-xs">
                 {{ load.weekNumber }}
@@ -116,6 +116,11 @@ export default {
     const modalIsOpen = ref(false);
     const updateModalIsOpen = ref(false);
 
+    const correctDate = (date) => {
+      const parts = date.split("/");
+      return parts[2] + "/" + parts[1] + "/" + parts[0];
+    };
+
     const reloadData = async () => {
       state.trainingLoads = await TrainingLoadService.getAll();
     };
@@ -151,6 +156,7 @@ export default {
       selectedLoad,
       modalIsOpen,
       updateModalIsOpen,
+      correctDate,
       reloadData,
       athletePressed,
       updatePressed,
