@@ -80,7 +80,7 @@
       </div>
     </div>
     <teleport to="body">
-      <CreateLoadModal
+      <LoadModal
         v-if="modalIsOpen"
         @close="modalIsOpen = false"
         @fetch="reloadData"
@@ -98,13 +98,13 @@
 
 <script>
 import { ref, reactive, onMounted } from "vue";
-import CreateLoadModal from "../components/training-load/CreateLoadModal";
-import UpdateLoadModal from "../components/training-load/UpdateLoadModal";
+import LoadModal from "../components/LoadModal";
+import UpdateLoadModal from "../components/UpdateLoadModal";
 import TrainingLoadService from "../services/TrainingLoadService";
 import AthleteService from "../services/AthleteService";
 
 export default {
-  components: { CreateLoadModal, UpdateLoadModal },
+  components: { LoadModal, UpdateLoadModal },
   setup() {
     const state = reactive({
       trainingLoads: [],
