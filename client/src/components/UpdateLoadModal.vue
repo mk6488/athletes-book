@@ -130,7 +130,7 @@ export default {
       { number: 9, title: "Really Really Hard", color: "text-orange-500" },
       { number: 10, title: "Maximal", color: "text-red-700" },
     ];
-    const trainingDate = ref(new Date().toLocaleString().split(",")[0]);
+    const trainingDate = ref("");
     const weekNumber = ref(1);
     const type = ref("");
     const duration = ref(60);
@@ -140,13 +140,18 @@ export default {
     const load = computed(() => duration.value * rpe.value);
 
     onMounted(() => {
-      trainingDate.value = props.loadData.trainingDate;
+      trainingDate.value = reverseDate(props.loadData.trainingDate);
       athleteName.value = props.loadData.athleteName;
       type.value = props.loadData.type;
       duration.value = props.loadData.duration;
       rpe.value = props.loadData.rpe;
       activeType.value = props.loadData.type;
     });
+
+    const reverseDate = (date) => {
+      const parts = date.split("/");
+      return parts[2] + "/" + parts[1] + "/" + parts[0];
+    };
 
     const getWeekNumber = () => {
       const trainingDateToIsoDate = trainingDate.value;
@@ -175,7 +180,7 @@ export default {
       getWeekNumber();
       await TrainingLoadService.updateOne(
         props.loadData._id,
-        trainingDate.value,
+        reverseDate(trainingDate.value),
         weekNumber.value,
         type.value,
         duration.value,

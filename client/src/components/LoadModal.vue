@@ -149,6 +149,11 @@ export default {
       weekNumber.value = new Date(mydate).getWeek();
     };
 
+    const reverseDate = (date) => {
+      const parts = date.split("/");
+      return parts[2] + "/" + parts[1] + "/" + parts[0];
+    };
+
     Date.prototype.getWeek = function () {
       var seasonStart = new Date(this.getFullYear(), 8, 7);
       return Math.ceil(
@@ -169,7 +174,7 @@ export default {
         getWeekNumber();
         await TrainingLoadService.createOne(
           props.athleteData._id,
-          trainingDate.value,
+          reverseDate(trainingDate.value),
           weekNumber.value,
           athleteName.value,
           type.value,
