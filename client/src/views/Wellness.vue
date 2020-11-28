@@ -18,7 +18,7 @@
         </div>
       </div>
 
-      <!-- List of Training Loads -->
+      <!-- List of Wellnesses -->
       <div class="mt-10">
         <h1 class="text-indigo-700 mb-2">Latest Wellness Figures</h1>
         <p class="text-sm text-red-700" v-if="error">{{ error }}</p>
@@ -38,7 +38,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="wellness in state.wellnessFigs" :key="wellness.id">
+            <tr v-for="wellness in state.wellnesses" :key="wellness.id">
               <td class="border border-indigo-600 text-center text-xs">
                 {{ correctDate(wellness.wellnessDate) }}
               </td>
@@ -88,17 +88,17 @@
       </div>
     </div>
     <teleport to="body">
-      <LoadModal
+      <WellnessModal
         v-if="modalIsOpen"
         @close="modalIsOpen = false"
         @fetch="reloadData"
         :athleteData="selectedAthlete"
       />
-      <UpdateLoadModal
+      <UpdateWellnessModal
         v-if="updateModalIsOpen"
         @close="updateModalIsOpen = false"
         @fetch="reloadData"
-        :loadData="selectedLoad"
+        :wellnessData="selectedWellness"
       />
     </teleport>
   </section>
@@ -106,16 +106,16 @@
 
 <script>
 import { ref, reactive, onMounted } from "vue";
-import LoadModal from "../components/LoadModal";
-import UpdateLoadModal from "../components/UpdateLoadModal";
+import WellnessModal from "../components/WellnessModal";
+import UpdateWellnessModal from "../components/UpdateWellnessModal";
 import WellnessService from "../services/WellnessService";
 import AthleteService from "../services/AthleteService";
 
 export default {
-  components: { LoadModal, UpdateLoadModal },
+  components: { WellnessModal, UpdateWellnessModal },
   setup() {
     const state = reactive({
-      wellnessFigs: [],
+      wellnesses: [],
       athletes: {},
     });
     const error = ref("");
@@ -130,7 +130,7 @@ export default {
     };
 
     const reloadData = async () => {
-      state.wellnessFigs = await WellnessService.getAll();
+      state.wellnesses = await WellnessService.getAll();
     };
 
     const athletePressed = (name) => {
@@ -145,13 +145,13 @@ export default {
 
     const deletePressed = async (id) => {
       await WellnessService.deleteOne(id);
-      state.wellnessFigs = await WellnessService.getAll();
+      state.wellnesses = await WellnessService.getAll();
     };
 
     onMounted(async () => {
       try {
-        state.athletes = await AthleteService.getAll();
-        state.wellnessFigs = await WellnessService.getAll();
+        state.athletes = await AthleteService.getAllActive();
+        state.wellnesses = await WellnessService.getAll();
       } catch (err) {
         error.value = err.message;
       }

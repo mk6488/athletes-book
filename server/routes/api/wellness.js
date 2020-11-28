@@ -16,6 +16,9 @@ router.post('/', async (req, res) => {
   const collection = await wellnessCollection()
   await collection.insertOne({
     athlete: req.body.athlete,
+    wellnessDate: req.body.wellnessDate,
+    weekNumber: req.body.weekNumber,
+    athleteName: req.body.athleteName,
     sleep: req.body.sleep,
     stress: req.body.stress,
     fatigue: req.body.fatigue,
@@ -34,6 +37,8 @@ router.put('/:id', async (req, res) => {
     _id: new mongodb.ObjectID(req.params.id)
   }, {
     $set: {
+      wellnessDate: req.body.wellnessDate,
+      weekNumber: req.body.weekNumber,
       sleep: req.body.sleep,
       stress: req.body.stress,
       fatigue: req.body.fatigue,
@@ -57,7 +62,8 @@ router.delete('/:id', async (req, res) => {
 
 async function wellnessCollection() {
   const client = await mongodb.MongoClient.connect('mongodb+srv://mk6488:Mk@136041@cluster0.yxttb.mongodb.net/athletes-book?retryWrites=true&w=majority', {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useUnifiedTopology: true
   })
 
   return client.db('athletes-book').collection('wellness')

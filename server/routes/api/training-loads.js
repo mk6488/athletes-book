@@ -58,10 +58,11 @@ router.delete('/:id', async (req, res) => {
 
 async function loadCollection() {
   const client = await mongodb.MongoClient.connect('mongodb+srv://mk6488:Mk@136041@cluster0.yxttb.mongodb.net/athletes-book?retryWrites=true&w=majority', {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useUnifiedTopology: true
   })
 
-  return client.db('athletes-book').collection('training-loads')
+  return client.db('athletes-book').collection('training_loads')
 }
 
 module.exports = router

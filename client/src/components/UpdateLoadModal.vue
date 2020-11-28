@@ -6,22 +6,33 @@
     ></section>
     <div class="absolute inset-0">
       <div class="flex h-full">
-        <div class="z-30 m-auto bg-white p-2 rounded-xl shadow-xl">
+        <div class="z-30 w-1/3 m-auto bg-white p-2 rounded-xl shadow-xl">
           <div class="p-2 border rounded">
-            <div class="text-5xl font-light text-indigo-700 text-center mb-2">
+            <!-- Athlete Name -->
+            <div class="text-5xl font-light text-indigo-700 text-center">
               {{ athleteName }}
             </div>
-            <div><input type="text" v-model="trainingDate" /></div>
+
+            <!-- Date -->
+            <div class="flex justify-start my-4">
+              <div class="border-b-2 border-indigo-500">
+                <label class="mr-4">Date:</label>
+                <input class="font-bold" type="text" v-model="trainingDate" />
+              </div>
+            </div>
+
             <!-- Type -->
-            <div>
+            <div class="mt-2">
               <div class="mx-auto py-1 flex justify-between flex-wrap">
                 <div
                   v-for="type in types"
                   :key="type.text"
-                  class="w-1/6 rounded m-1 p-2 cursor-pointer"
+                  class="w-1/6 rounded-full m-1 p-2 cursor-pointer"
                   :class="[
                     `${type.color}`,
-                    activeType === type.text ? 'border-2 border-black' : '',
+                    activeType === type.text
+                      ? 'border-2 border-black'
+                      : 'border-2 border-white',
                   ]"
                   @click="updateType(type.text)"
                 >
@@ -38,7 +49,7 @@
             </div>
 
             <!-- Duration -->
-            <div>
+            <div class="mt-2">
               <div class="value">
                 <span>Time </span
                 ><span class="float-right">{{ duration }}</span>
@@ -53,7 +64,7 @@
             </div>
 
             <!-- RPE -->
-            <div>
+            <div class="mt-2">
               <div class="value">
                 <span>RPE</span>
                 <span class="float-right">{{ rpe }}</span>
@@ -68,7 +79,7 @@
             </div>
 
             <!-- Submit -->
-            <div class="m-auto w-1/2">
+            <div class="m-auto w-1/2 my-2">
               <button
                 @click="submit"
                 class="p-2 w-full bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white border border-indigo-500 hover:border-transparent rounded"

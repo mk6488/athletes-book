@@ -28,6 +28,7 @@ export default {
   setup() {
     const list = [
       { title: "Home", to: "/" },
+      { title: "Athlete", to: "/athlete" },
       { title: "Training Load", to: "/training-load" },
       { title: "Wellness", to: "/wellness" },
     ];

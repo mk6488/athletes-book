@@ -18,6 +18,21 @@ class AthleteService {
     })
   }
 
+  static getAllActive() {
+    return new Promise((resolve, reject) => {
+      axios.get('athletes/active')
+        .then(({
+          data
+        }) => {
+          resolve(data.map(athlete => ({
+            ...athlete,
+            createdAt: new Date(athlete.createdAt)
+          })))
+        })
+        .catch((error) => reject(error))
+    })
+  }
+
   // Create
   static createOne(firstName, lastName) {
     return axios.post('athletes', {

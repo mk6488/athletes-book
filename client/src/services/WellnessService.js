@@ -18,11 +18,13 @@ class WellnessService {
   }
 
   // Create
-  static createOne(trainingDate, athlete, sleet, stress, fatigue, soreness, nutrition, average) {
+  static createOne(athleteId, wellnessDate, weekNumber, athleteName, sleep, stress, fatigue, soreness, nutrition, average) {
     return axios.post('wellness', {
-      trainingDate,
-      athlete,
-      sleet,
+      athleteId,
+      wellnessDate,
+      weekNumber,
+      athleteName,
+      sleep,
       stress,
       fatigue,
       soreness,
@@ -32,8 +34,10 @@ class WellnessService {
   }
 
   // Update
-  static updateOne(id, sleep, stress, fatigue, soreness, nutrition, average) {
+  static updateOne(id, wellnessDate, weekNumber, sleep, stress, fatigue, soreness, nutrition, average) {
     return axios.put(`training-loads/${id}`, {
+      wellnessDate,
+      weekNumber,
       sleep,
       stress,
       fatigue,

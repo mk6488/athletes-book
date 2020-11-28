@@ -4,6 +4,15 @@ const mongodb = require('mongodb')
 const router = express.Router()
 
 // Get 
+router.get('/active', async (req, res) => {
+  const collection = await athleteCollection()
+  res.send(await collection.find({
+    "current": true
+  }).sort({
+    "firstName": 1
+  }).toArray())
+})
+
 router.get('/', async (req, res) => {
   const collection = await athleteCollection()
   res.send(await collection.find({}).sort({
@@ -17,6 +26,11 @@ router.post('/', async (req, res) => {
   await collection.insertOne({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
+    squad: req.body.squad,
+    current: req.body.current,
+    refLoad: req.body.refLoad,
+    dofe: req.body.dofe,
+    dob: req.body.dob,
     createdAt: new Date()
   })
   res.status(201).send()
@@ -31,6 +45,11 @@ router.put('/:id', async (req, res) => {
     $set: {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
+      squad: req.body.squad,
+      current: req.body.current,
+      refLoad: req.body.refLoad,
+      dofe: req.body.dofe,
+      dob: req.body.dob,
       updatedAt: new Date()
     }
   })
@@ -48,7 +67,8 @@ router.delete('/:id', async (req, res) => {
 
 async function athleteCollection() {
   const client = await mongodb.MongoClient.connect('mongodb+srv://mk6488:Mk@136041@cluster0.yxttb.mongodb.net/athletes-book?retryWrites=true&w=majority', {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
   })
 
   return client.db('athletes-book').collection('athletes')

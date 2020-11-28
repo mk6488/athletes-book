@@ -4,6 +4,7 @@ import {
 } from 'vue-router'
 import store from '../store/index'
 import Home from '../views/Home.vue'
+import Athlete from '../views/Athlete.vue'
 import TrainingLoad from '../views/TrainingLoad.vue'
 import Wellness from '../views/Wellness.vue'
 
@@ -11,6 +12,13 @@ import Wellness from '../views/Wellness.vue'
 const routes = [{
     path: '/',
     component: Home
+  },
+  {
+    path: '/athlete',
+    component: Athlete,
+    meta: {
+      middleware: 'auth'
+    }
   },
   {
     path: '/training-load',

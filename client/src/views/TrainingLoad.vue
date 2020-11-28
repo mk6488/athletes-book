@@ -142,7 +142,7 @@ export default {
 
     onMounted(async () => {
       try {
-        state.athletes = await AthleteService.getAll();
+        state.athletes = await AthleteService.getAllActive();
         state.trainingLoads = await TrainingLoadService.getAll();
       } catch (err) {
         error.value = err.message;
