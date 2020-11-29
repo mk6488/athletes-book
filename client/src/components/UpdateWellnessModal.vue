@@ -8,12 +8,133 @@
       <div class="flex h-full">
         <div class="z-30 m-auto bg-white p-2 rounded-xl shadow-xl">
           <div class="p-2 border rounded">
-            <div class="text-5xl font-light text-indigo-700 text-center mb-2">
+            <!-- Athlete Name -->
+            <div class="text-5xl font-light text-indigo-700 text-center">
               {{ athleteName }}
             </div>
-            <div><input type="text" v-model="wellnessDate" /></div>
 
-            <h1>Buttons go here</h1>
+            <!-- Date -->
+            <div class="flex justify-start my-4">
+              <div class="border-b-2 border-indigo-500">
+                <label class="mr-4">Date:</label>
+                <input class="font-bold" type="text" v-model="wellnessDate" />
+              </div>
+            </div>
+
+            <!-- Sleep -->
+            <div class="mt-2">
+              <p class="font-bold text-sm">Sleep</p>
+              <div class="mx-auto py-1 flex justify-between flex-wrap">
+                <div
+                  v-for="number in numbers"
+                  :key="number.text"
+                  class="w-1/6 rounded-full m-1 p-2 cursor-pointer"
+                  :class="[
+                    `${number.color}`,
+                    activeSleep === number.value
+                      ? 'border-2 border-black'
+                      : 'border-2 border-white',
+                  ]"
+                  @click="updateActiveSleep(number.value)"
+                >
+                  <p class="text-center text-xs text-white">
+                    {{ number.text }}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Stress -->
+            <div class="mt-2">
+              <p class="font-bold text-sm">Stress</p>
+              <div class="mx-auto py-1 flex justify-between flex-wrap">
+                <div
+                  v-for="number in numbers"
+                  :key="number.text"
+                  class="w-1/6 rounded-full m-1 p-2 cursor-pointer"
+                  :class="[
+                    `${number.color}`,
+                    activeStress === number.value
+                      ? 'border-2 border-black'
+                      : 'border-2 border-white',
+                  ]"
+                  @click="updateActiveStress(number.value)"
+                >
+                  <p class="text-center text-xs text-white">
+                    {{ number.text }}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Fatigue -->
+            <div class="mt-2">
+              <p class="font-bold text-sm">Fatigue</p>
+              <div class="mx-auto py-1 flex justify-between flex-wrap">
+                <div
+                  v-for="number in numbers"
+                  :key="number.text"
+                  class="w-1/6 rounded-full m-1 p-2 cursor-pointer"
+                  :class="[
+                    `${number.color}`,
+                    activeFatigue === number.value
+                      ? 'border-2 border-black'
+                      : 'border-2 border-white',
+                  ]"
+                  @click="updateActiveFatigue(number.value)"
+                >
+                  <p class="text-center text-xs text-white">
+                    {{ number.text }}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Soreness -->
+            <div class="mt-2">
+              <p class="font-bold text-sm">Soreness</p>
+              <div class="mx-auto py-1 flex justify-between flex-wrap">
+                <div
+                  v-for="number in numbers"
+                  :key="number.text"
+                  class="w-1/6 rounded-full m-1 p-2 cursor-pointer"
+                  :class="[
+                    `${number.color}`,
+                    activeSoreness === number.value
+                      ? 'border-2 border-black'
+                      : 'border-2 border-white',
+                  ]"
+                  @click="updateActiveSoreness(number.value)"
+                >
+                  <p class="text-center text-xs text-white">
+                    {{ number.text }}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Nutrition -->
+            <div class="mt-2">
+              <p class="font-bold text-sm">Nutrition</p>
+              <div class="mx-auto py-1 flex justify-between flex-wrap">
+                <div
+                  v-for="number in numbers"
+                  :key="number.text"
+                  class="w-1/6 rounded-full m-1 p-2 cursor-pointer"
+                  :class="[
+                    `${number.color}`,
+                    activeNutrition === number.value
+                      ? 'border-2 border-black'
+                      : 'border-2 border-white',
+                  ]"
+                  @click="updateActiveNutrition(number.value)"
+                >
+                  <p class="text-center text-xs text-white">
+                    {{ number.text }}
+                  </p>
+                </div>
+              </div>
+            </div>
 
             <!-- Submit -->
             <div class="m-auto w-1/2">
@@ -38,6 +159,13 @@ import WellnessService from "../services/WellnessService";
 export default {
   props: ["wellnessData"],
   setup(props, { emit }) {
+    const numbers = [
+      { text: "1", value: 1, color: "bg-blue-300" },
+      { text: "2", value: 2, color: "bg-green-500" },
+      { text: "3", value: 3, color: "bg-yellow-400" },
+      { text: "4", value: 4, color: "bg-orange-600" },
+      { text: "5", value: 5, color: "bg-red-600" },
+    ];
     const athleteName = ref("Athlete Name");
     const wellnessDate = ref("");
     const weekNumber = ref(1);
@@ -62,6 +190,7 @@ export default {
     );
 
     onMounted(() => {
+      console.log(props.wellnessData);
       wellnessDate.value = reverseDate(props.wellnessData.wellnessDate);
       athleteName.value = props.wellnessData.athleteName;
       sleep.value = props.wellnessData.sleep;
@@ -137,8 +266,9 @@ export default {
     };
 
     return {
-      wellnessDate,
+      numbers,
       athleteName,
+      wellnessDate,
       sleep,
       stress,
       fatigue,

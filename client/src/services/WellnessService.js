@@ -35,7 +35,7 @@ class WellnessService {
 
   // Update
   static updateOne(id, wellnessDate, weekNumber, sleep, stress, fatigue, soreness, nutrition, average) {
-    return axios.put(`training-loads/${id}`, {
+    return axios.put(`wellness/${id}`, {
       wellnessDate,
       weekNumber,
       sleep,
