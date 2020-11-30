@@ -3,26 +3,39 @@ const mongodb = require('mongodb')
 
 const router = express.Router()
 
-// Get 
-router.get('/active', async (req, res) => {
-  const collection = await athleteCollection()
+// Get
+router.get('/', async (req, res) => {
+  const collection = await userCollection()
   res.send(await collection.find({
-    "current": true
+    "active": true
   }).sort({
-    "firstName": 1
+    "lastName": 1
   }).toArray())
 })
 
-router.get('/', async (req, res) => {
-  const collection = await athleteCollection()
-  res.send(await collection.find({}).sort({
-    "firstName": 1
+router.get('/athletes', async (req, res) => {
+  const collection = await userCollection()
+  res.send(await collection.find({
+    "member": "athlete",
+    "active": true
+  }).sort({
+    "lastName": 1
+  }).toArray())
+})
+
+router.get('/coaches', async (req, res) => {
+  const collection = await userCollection()
+  res.send(await collection.find({
+    "member": "coach",
+    "active": true
+  }).sort({
+    "lastName": 1
   }).toArray())
 })
 
 // Add
 router.post('/', async (req, res) => {
-  const collection = await athleteCollection()
+  const collection = await userCollection()
   await collection.insertOne({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
@@ -38,7 +51,7 @@ router.post('/', async (req, res) => {
 
 // Update
 router.put('/:id', async (req, res) => {
-  const collection = await athleteCollection()
+  const collection = await userCollection()
   await collection.updateOne({
     _id: new mongodb.ObjectID(req.params.id)
   }, {
@@ -56,35 +69,22 @@ router.put('/:id', async (req, res) => {
   res.status(201).send()
 })
 
-router.put('/:id/toggle', async (req, res) => {
-  const collection = await athleteCollection()
-  await collection.updateOne({
-    _id: new mongodb.ObjectID(req.params.id)
-  }, {
-    $set: {
-      current: req.body.current,
-      updatedAt: new Date()
-    }
-  })
-  res.status(201).send()
-})
-
 // Delete
 router.delete('/:id', async (req, res) => {
-  const collection = await athleteCollection()
+  const collection = await userCollection()
   await collection.deleteOne({
     _id: new mongodb.ObjectID(req.params.id)
   })
   res.status(200).send()
 })
 
-async function athleteCollection() {
+async function userCollection() {
   const client = await mongodb.MongoClient.connect('mongodb+srv://mk6488:Mk@136041@cluster0.yxttb.mongodb.net/athletes-book?retryWrites=true&w=majority', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
 
-  return client.db('athletes-book').collection('athletes')
+  return client.db('athletes-book').collection('users')
 }
 
 module.exports = router

@@ -18,59 +18,64 @@
         </div>
       </div>
 
-      <!-- List of Wellnesses -->
+      <!-- List of Wellness -->
       <div class="mt-10">
-        <h1 class="text-indigo-700 mb-2">Latest Wellness Figures</h1>
+        <div class="flex justify-between mb-2">
+          <h1 class="text-indigo-700 p-2">Latest Wellness Data</h1>
+          <h2 class="text-white bg-indigo-400 rounded-full p-2">
+            {{ wellnessCount }}
+          </h2>
+        </div>
         <p class="text-sm text-red-700" v-if="error">{{ error }}</p>
         <table class="w-full border-separate border border-green-800">
           <thead>
             <tr>
-              <th class="border border-indigo-600">Date</th>
-              <th class="border border-indigo-600">Week #</th>
-              <th class="border border-indigo-600">Athlete</th>
-              <th class="border border-indigo-600">Sleep</th>
-              <th class="border border-indigo-600">Stress</th>
-              <th class="border border-indigo-600">Fatigue</th>
-              <th class="border border-indigo-600">Soreness</th>
-              <th class="border border-indigo-600">Nutrition</th>
-              <th class="border border-indigo-600">Average</th>
-              <th class="border border-indigo-600">Actions</th>
+              <th class="border border-indigo-600 px-2">Date</th>
+              <th class="border border-indigo-600 px-2">Week #</th>
+              <th class="border border-indigo-600 px-2">Athlete</th>
+              <th class="border border-indigo-600 px-2">Sleep</th>
+              <th class="border border-indigo-600 px-2">Stress</th>
+              <th class="border border-indigo-600 px-2">Fatigue</th>
+              <th class="border border-indigo-600 px-2">Soreness</th>
+              <th class="border border-indigo-600 px-2">Nutrition</th>
+              <th class="border border-indigo-600 px-2">Average</th>
+              <th class="border border-indigo-600 px-2">Actions</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="wellness in state.wellnesses" :key="wellness.id">
-              <td class="border border-indigo-600 text-center text-xs">
+            <tr v-for="wellness in state.wellness" :key="wellness.id">
+              <td class="border border-indigo-600 text-center text-xs px-2">
                 {{ correctDate(wellness.wellnessDate) }}
               </td>
-              <td class="border border-indigo-600 text-center text-xs">
+              <td class="border border-indigo-600 text-center text-xs px-2">
                 {{ wellness.weekNumber }}
               </td>
-              <td class="border border-indigo-600 text-center text-xs">
+              <td class="border border-indigo-600 text-center text-xs px-2">
                 {{ wellness.athleteName }}
               </td>
-              <td class="border border-indigo-600 text-center text-xs">
+              <td class="border border-indigo-600 text-center text-xs px-2">
                 {{ wellness.sleep }}
               </td>
-              <td class="border border-indigo-600 text-center text-xs">
+              <td class="border border-indigo-600 text-center text-xs px-2">
                 {{ wellness.stress }}
               </td>
-              <td class="border border-indigo-600 text-center text-xs">
+              <td class="border border-indigo-600 text-center text-xs px-2">
                 {{ wellness.fatigue }}
               </td>
-              <td class="border border-indigo-600 text-center text-xs">
+              <td class="border border-indigo-600 text-center text-xs px-2">
                 {{ wellness.soreness }}
               </td>
-              <td class="border border-indigo-600 text-center text-xs">
+              <td class="border border-indigo-600 text-center text-xs px-2">
                 {{ wellness.nutrition }}
               </td>
-              <td class="border border-indigo-600 text-center text-xs">
+              <td class="border border-indigo-600 text-center text-xs px-2">
                 {{ wellness.average }}
               </td>
-              <td class="border border-indigo-600 text-center text-xs">
+              <td class="border border-indigo-600 text-center text-xs px-2">
                 <div class="flex justify-evenly">
                   <button>
                     <i
-                      class="fa fa-pencil text-orange-500"
+                      class="fa fa-pencil text-yellow-500"
                       @click="updatePressed(wellness)"
                     ></i>
                   </button>
@@ -105,7 +110,7 @@
 </template>
 
 <script>
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive, computed, onMounted } from "vue";
 import WellnessModal from "../components/WellnessModal";
 import UpdateWellnessModal from "../components/UpdateWellnessModal";
 import WellnessService from "../services/WellnessService";
@@ -115,7 +120,7 @@ export default {
   components: { WellnessModal, UpdateWellnessModal },
   setup() {
     const state = reactive({
-      wellnesses: [],
+      wellness: [],
       athletes: {},
     });
     const error = ref("");
@@ -124,13 +129,17 @@ export default {
     const modalIsOpen = ref(false);
     const updateModalIsOpen = ref(false);
 
+    const wellnessCount = computed({
+      get: () => state.wellness.length,
+    });
+
     const correctDate = (date) => {
       const parts = date.split("/");
       return parts[2] + "/" + parts[1] + "/" + parts[0];
     };
 
     const reloadData = async () => {
-      state.wellnesses = await WellnessService.getAll();
+      state.wellness = await WellnessService.getAll();
     };
 
     const athletePressed = (name) => {
@@ -145,13 +154,13 @@ export default {
 
     const deletePressed = async (id) => {
       await WellnessService.deleteOne(id);
-      state.wellnesses = await WellnessService.getAll();
+      state.wellness = await WellnessService.getAll();
     };
 
     onMounted(async () => {
       try {
         state.athletes = await AthleteService.getAllActive();
-        state.wellnesses = await WellnessService.getAll();
+        state.wellness = await WellnessService.getAll();
       } catch (err) {
         error.value = err.message;
       }
@@ -164,6 +173,7 @@ export default {
       selectedWellness,
       modalIsOpen,
       updateModalIsOpen,
+      wellnessCount,
       correctDate,
       reloadData,
       athletePressed,

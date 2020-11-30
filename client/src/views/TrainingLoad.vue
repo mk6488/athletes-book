@@ -20,49 +20,54 @@
 
       <!-- List of Training Loads -->
       <div class="mt-10">
-        <h1 class="text-indigo-700 mb-2">Latest Training Loads</h1>
+        <div class="flex justify-between mb-2">
+          <h1 class="text-indigo-700 p-2">Latest Training Load Data</h1>
+          <h2 class="text-white bg-indigo-400 rounded-full p-2">
+            {{ trainingLoadsCount }}
+          </h2>
+        </div>
         <p class="text-sm text-red-700" v-if="error">{{ error }}</p>
         <table class="w-full border-separate border border-green-800">
           <thead>
             <tr>
-              <th class="border border-indigo-600">Date</th>
-              <th class="border border-indigo-600">Week #</th>
-              <th class="border border-indigo-600">Athlete</th>
-              <th class="border border-indigo-600">Type</th>
-              <th class="border border-indigo-600">Duration</th>
-              <th class="border border-indigo-600">RPE</th>
-              <th class="border border-indigo-600">Load</th>
-              <th class="border border-indigo-600">Actions</th>
+              <th class="border border-indigo-600 px-2">Date</th>
+              <th class="border border-indigo-600 px-2">Week #</th>
+              <th class="border border-indigo-600 px-2">Athlete</th>
+              <th class="border border-indigo-600 px-2">Type</th>
+              <th class="border border-indigo-600 px-2">Duration</th>
+              <th class="border border-indigo-600 px-2">RPE</th>
+              <th class="border border-indigo-600 px-2">Load</th>
+              <th class="border border-indigo-600 px-2">Actions</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="load in state.trainingLoads" :key="load.id">
-              <td class="border border-indigo-600 text-center text-xs">
+              <td class="border border-indigo-600 text-center text-xs px-2">
                 {{ correctDate(load.trainingDate) }}
               </td>
-              <td class="border border-indigo-600 text-center text-xs">
+              <td class="border border-indigo-600 text-center text-xs px-2">
                 {{ load.weekNumber }}
               </td>
-              <td class="border border-indigo-600 text-center text-xs">
+              <td class="border border-indigo-600 text-center text-xs px-2">
                 {{ load.athleteName }}
               </td>
-              <td class="border border-indigo-600 text-center text-xs">
+              <td class="border border-indigo-600 text-center text-xs px-2">
                 {{ load.type }}
               </td>
-              <td class="border border-indigo-600 text-center text-xs">
+              <td class="border border-indigo-600 text-center text-xs px-2">
                 {{ `${load.duration} minutes` }}
               </td>
-              <td class="border border-indigo-600 text-center text-xs">
+              <td class="border border-indigo-600 text-center text-xs px-2">
                 {{ `${load.rpe} of 10` }}
               </td>
-              <td class="border border-indigo-600 text-center text-xs">
+              <td class="border border-indigo-600 text-center text-xs px-2">
                 {{ load.load }}
               </td>
-              <td class="border border-indigo-600 text-center text-xs">
+              <td class="border border-indigo-600 text-center text-xs px-2">
                 <div class="flex justify-evenly">
                   <button>
                     <i
-                      class="fa fa-pencil text-orange-500"
+                      class="fa fa-pencil text-yellow-500"
                       @click="updatePressed(load)"
                     ></i>
                   </button>
@@ -97,7 +102,7 @@
 </template>
 
 <script>
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive, computed, onMounted } from "vue";
 import LoadModal from "../components/LoadModal";
 import UpdateLoadModal from "../components/UpdateLoadModal";
 import TrainingLoadService from "../services/TrainingLoadService";
@@ -115,6 +120,10 @@ export default {
     const selectedLoad = ref({});
     const modalIsOpen = ref(false);
     const updateModalIsOpen = ref(false);
+
+    const trainingLoadsCount = computed({
+      get: () => state.trainingLoads.length,
+    });
 
     const correctDate = (date) => {
       const parts = date.split("/");
@@ -156,6 +165,7 @@ export default {
       selectedLoad,
       modalIsOpen,
       updateModalIsOpen,
+      trainingLoadsCount,
       correctDate,
       reloadData,
       athletePressed,

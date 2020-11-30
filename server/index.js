@@ -10,9 +10,11 @@ app.use(cors())
 
 const trainingLoads = require('./routes/api/training-loads')
 const athletes = require('./routes/api/athletes')
+const users = require('./routes/api/users')
 const wellness = require('./routes/api/wellness')
 
 app.use('/api/training-loads', trainingLoads)
+app.use('/api/users', users)
 app.use('/api/athletes', athletes)
 app.use('/api/wellness', wellness)
 

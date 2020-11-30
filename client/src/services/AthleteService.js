@@ -34,18 +34,34 @@ class AthleteService {
   }
 
   // Create
-  static createOne(firstName, lastName) {
+  static createOne(firstName, lastName, squad, current, refLoad, dofe, dob) {
     return axios.post('athletes', {
       firstName,
-      lastName
+      lastName,
+      squad,
+      current,
+      refLoad,
+      dofe,
+      dob
     })
   }
 
   // Update
-  static updateOne(id, firstName, lastName) {
+  static updateOne(id, firstName, lastName, squad, current, refLoad, dofe, dob) {
     return axios.put(`athletes/${id}`, {
       firstName,
-      lastName
+      lastName,
+      squad,
+      current,
+      refLoad,
+      dofe,
+      dob
+    })
+  }
+
+  static toggleCurrent(id, current) {
+    return axios.put(`athletes/${id}/toggle`, {
+      current
     })
   }
 
