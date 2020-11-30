@@ -111,12 +111,12 @@
 
 <script>
 import { ref, reactive, onMounted } from "vue";
-// import AthleteModal from "../components/AthleteModal";
-// import UpdateAthleteModal from "../components/UpdateAthleteModal";
+import AthleteModal from "../components/AthleteModal";
+import UpdateAthleteModal from "../components/UpdateAthleteModal";
 import AthleteService from "../services/AthleteService";
 
 export default {
-  // components: { AthleteModal, UpdateAthleteModal },
+  components: { AthleteModal, UpdateAthleteModal },
   setup() {
     const state = reactive({
       athletes: [],
@@ -132,15 +132,12 @@ export default {
       return Math.floor((new Date() - dobISO) / 31557600000);
     };
 
-    // Math.floor((new Date() - dob) / 365));
-
     const reloadData = async () => {
       state.athletes = await AthleteService.getAll();
     };
 
     const addPressed = () => {
-      console.log("opening Modal");
-      // modalIsOpen.value = true;
+      modalIsOpen.value = true;
     };
 
     const updatePressed = (athlete) => {
