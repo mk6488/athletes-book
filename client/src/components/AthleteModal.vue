@@ -54,6 +54,18 @@
                   </select>
                 </div>
               </div>
+              <!-- Weight -->
+              <div class="my-6">
+                <div class="flex">
+                  <label class="text-gray-400 w-1/4">Weight:</label>
+                  <input
+                    class="w-1/4 border-b-2 border-indigo-400"
+                    type="text"
+                    v-model="weight"
+                  />
+                  <span class="text-gray-400 w-1/4">Kg</span>
+                </div>
+              </div>
               <!-- DofE -->
               <div class="my-6">
                 <div class="flex">
@@ -98,13 +110,6 @@
                   type="submit"
                 />
               </div>
-              <div>
-                <p>
-                  {{
-                    `${firstName} ${lastName}, ${squad}, ${dofeNumber} ${dofeLevel}, ${dob}`
-                  }}
-                </p>
-              </div>
             </form>
           </div>
         </div>
@@ -135,8 +140,9 @@ export default {
     const firstName = ref("");
     const lastName = ref("");
     const squad = ref("");
+    const weight = ref();
     const current = ref(true);
-    const refLoad = ref(1000);
+    const refLoad = ref();
     const dofeNumber = ref("");
     const dofeLevel = ref("");
     const dob = ref("");
@@ -148,12 +154,14 @@ export default {
       emit("fetch");
     };
 
-    const submit = () => {
+    const submit = async () => {
       if (firstName.value && lastName.value) {
-        AthleteService.createOne(
+        refLoad.value = 1000;
+        await AthleteService.createOne(
           firstName.value,
           lastName.value,
           squad.value,
+          weight.value,
           current.value,
           refLoad.value,
           dofe.value,
@@ -171,6 +179,7 @@ export default {
       firstName,
       lastName,
       squad,
+      weight,
       dofeNumber,
       dofeLevel,
       dob,

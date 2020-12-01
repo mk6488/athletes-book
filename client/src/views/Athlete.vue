@@ -27,7 +27,7 @@
               <th class="border border-indigo-600 px-2">Name</th>
               <th class="border border-indigo-600 px-2">Squad</th>
               <th class="border border-indigo-600 px-2">Current</th>
-              <th class="border border-indigo-600 px-2">Ref Load</th>
+              <th class="border border-indigo-600 px-2">Weight</th>
               <th class="border border-indigo-600 px-2">DofE</th>
               <th class="border border-indigo-600 px-2">D.O.B</th>
               <th class="border border-indigo-600 px-2">Age</th>
@@ -59,7 +59,7 @@
                 class="border border-indigo-600 text-center text-xs px-2"
                 :class="athlete.current === false ? 'text-red-700' : ''"
               >
-                {{ athlete.refLoad }}
+                {{ athlete.weight ? `${athlete.weight} kg` : "" }}
               </td>
               <td
                 class="border border-indigo-600 text-center text-xs px-2"
@@ -164,17 +164,7 @@ export default {
 
     const updatePressed = (athlete) => {
       selectedAthlete.value = athlete;
-      console.log("opening Update Modal");
-      // updateModalIsOpen.value = true;
-    };
-
-    const deletePressed = async (id) => {
-      console.log(
-        `changing the athlete with the id of ${id} to current = false`
-      );
-      // TODO: implement soft delete
-      // await AthleteService.deleteOne(id);
-      // state.trainingLoads = await AthleteService.getAll();
+      updateModalIsOpen.value = true;
     };
 
     onMounted(async () => {
@@ -197,7 +187,6 @@ export default {
       addPressed,
       toggleCurrent,
       updatePressed,
-      deletePressed,
     };
   },
 };
