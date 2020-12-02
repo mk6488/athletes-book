@@ -1,7 +1,7 @@
 <template>
   <section class="flex flex-wrap w-full">
     <div class="m-auto">
-      <h1 class="text-4xl my-5 text-center text-indigo-700">Training Loads</h1>
+      <h1 class="text-4xl my-5 text-center text-indigo-700">Comments</h1>
       <!-- Athlete Buttons -->
       <div class="flex flex-wrap">
         <div
@@ -18,12 +18,12 @@
         </div>
       </div>
 
-      <!-- List of Training Loads -->
+      <!-- List of Comments -->
       <div class="mt-10">
         <div class="flex justify-between mb-2">
-          <h1 class="text-indigo-700 p-2">Latest Training Load Data</h1>
+          <h1 class="text-indigo-700 p-2">Latest Comments</h1>
           <h2 class="text-white bg-indigo-400 rounded-full p-2">
-            {{ trainingLoadsCount }}
+            {{ commentsCount }}
           </h2>
         </div>
         <p class="text-sm text-red-700" v-if="error">{{ error }}</p>
@@ -34,47 +34,46 @@
               <th class="border border-indigo-600 px-2">Week #</th>
               <th class="border border-indigo-600 px-2">Athlete</th>
               <th class="border border-indigo-600 px-2">Type</th>
-              <th class="border border-indigo-600 px-2">Duration</th>
-              <th class="border border-indigo-600 px-2">RPE</th>
-              <th class="border border-indigo-600 px-2">Load</th>
+              <th class="border border-indigo-600 px-2">Comment</th>
               <th class="border border-indigo-600 px-2">Actions</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="load in state.trainingLoads" :key="load.id">
+            <tr v-for="comment in state.comments" :key="comment.id">
               <td class="border border-indigo-600 text-center text-xs px-2">
-                {{ correctDate(load.trainingDate) }}
+                {{ correctDate(comment.commentDate) }}
               </td>
               <td class="border border-indigo-600 text-center text-xs px-2">
-                {{ load.weekNumber }}
+                {{ comment.weekNumber }}
               </td>
               <td class="border border-indigo-600 text-center text-xs px-2">
-                {{ load.athleteName }}
+                {{ comment.athleteName }}
               </td>
-              <td class="border border-indigo-600 text-center text-xs px-2">
-                {{ load.type }}
+              <td
+                class="border border-indigo-600 text-center text-xs px-2"
+                :class="[
+                  comment.commentType === 'Incident' ? 'bg-red-200' : '',
+                  comment.commentType === 'Medical' ? 'bg-yellow-200' : '',
+                  comment.commentType === 'General' ? 'bg-green-200' : '',
+                ]"
+              >
+                {{ comment.commentType }}
               </td>
-              <td class="border border-indigo-600 text-center text-xs px-2">
-                {{ `${load.duration} minutes` }}
-              </td>
-              <td class="border border-indigo-600 text-center text-xs px-2">
-                {{ `${load.rpe} of 10` }}
-              </td>
-              <td class="border border-indigo-600 text-center text-xs px-2">
-                {{ load.load }}
+              <td class="border border-indigo-600 text-xs px-2">
+                {{ comment.comment }}
               </td>
               <td class="border border-indigo-600 text-center text-xs px-2">
                 <div class="flex justify-evenly">
                   <button>
                     <i
                       class="fa fa-pencil text-yellow-500"
-                      @click="updatePressed(load)"
+                      @click="updatePressed(comment)"
                     ></i>
                   </button>
                   <button>
                     <i
                       class="fas fa-trash text-red-800"
-                      @click="deletePressed(load._id)"
+                      @click="deletePressed(comment._id)"
                     ></i>
                   </button>
                 </div>
@@ -85,17 +84,17 @@
       </div>
     </div>
     <teleport to="body">
-      <LoadModal
+      <CommentModal
         v-if="modalIsOpen"
         @close="modalIsOpen = false"
         @fetch="reloadData"
         :athleteData="selectedAthlete"
       />
-      <UpdateLoadModal
+      <UpdateCommentModal
         v-if="updateModalIsOpen"
         @close="updateModalIsOpen = false"
         @fetch="reloadData"
-        :loadData="selectedLoad"
+        :commentData="selectedComment"
       />
     </teleport>
   </section>
@@ -103,26 +102,26 @@
 
 <script>
 import { ref, reactive, computed, onMounted } from "vue";
-import LoadModal from "../components/LoadModal";
-import UpdateLoadModal from "../components/UpdateLoadModal";
-import TrainingLoadService from "../services/TrainingLoadService";
+import CommentModal from "../components/CommentModal";
+import UpdateCommentModal from "../components/UpdateCommentModal";
+import CommentService from "../services/CommentService";
 import AthleteService from "../services/AthleteService";
 
 export default {
-  components: { LoadModal, UpdateLoadModal },
+  components: { CommentModal, UpdateCommentModal },
   setup() {
     const state = reactive({
-      trainingLoads: [],
+      comments: [],
       athletes: {},
     });
     const error = ref("");
     const selectedAthlete = ref({});
-    const selectedLoad = ref({});
+    const selectedComment = ref({});
     const modalIsOpen = ref(false);
     const updateModalIsOpen = ref(false);
 
-    const trainingLoadsCount = computed({
-      get: () => state.trainingLoads.length,
+    const commentsCount = computed({
+      get: () => state.comments.length,
     });
 
     const correctDate = (date) => {
@@ -131,7 +130,7 @@ export default {
     };
 
     const reloadData = async () => {
-      state.trainingLoads = await TrainingLoadService.getAll();
+      state.comments = await CommentService.getAll();
     };
 
     const athletePressed = (name) => {
@@ -139,20 +138,20 @@ export default {
       selectedAthlete.value = name;
     };
 
-    const updatePressed = (load) => {
-      selectedLoad.value = load;
+    const updatePressed = (comment) => {
+      selectedComment.value = comment;
       updateModalIsOpen.value = true;
     };
 
     const deletePressed = async (id) => {
-      await TrainingLoadService.deleteOne(id);
-      state.trainingLoads = await TrainingLoadService.getAll();
+      await CommentService.deleteOne(id);
+      state.comments = await CommentService.getAll();
     };
 
     onMounted(async () => {
       try {
         state.athletes = await AthleteService.getAllActive();
-        state.trainingLoads = await TrainingLoadService.getAll();
+        state.comments = await CommentService.getAll();
       } catch (err) {
         error.value = err.message;
       }
@@ -162,10 +161,10 @@ export default {
       state,
       error,
       selectedAthlete,
-      selectedLoad,
+      selectedComment,
       modalIsOpen,
       updateModalIsOpen,
-      trainingLoadsCount,
+      commentsCount,
       correctDate,
       reloadData,
       athletePressed,

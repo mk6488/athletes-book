@@ -170,7 +170,7 @@ export default {
       () => `${props.athleteData.firstName} ${props.athleteData.lastName}`
     );
     const wellnessDate = ref(new Date().toLocaleString().split(",")[0]);
-    const weekNumber = ref(1);
+    const weekNumber = ref("");
     const sleep = ref(1);
     const stress = ref(1);
     const fatigue = ref(1);

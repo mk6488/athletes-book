@@ -102,31 +102,11 @@ export default {
   props: ["athleteData"],
   setup(props, { emit }) {
     const types = [
-      {
-        text: "Water",
-        color: "bg-blue-400",
-        hover: "bg-blue-500",
-      },
-      {
-        text: "Erg",
-        color: "bg-yellow-500",
-        hover: "bg-yellow-600",
-      },
-      {
-        text: "S&C",
-        color: "bg-yellow-300",
-        hover: "bg-yellow-400",
-      },
-      {
-        text: "XT",
-        color: "bg-green-400",
-        hover: "bg-green-500",
-      },
-      {
-        text: "Test",
-        color: "bg-red-400",
-        hover: "bg-red-500",
-      },
+      { text: "Water", color: "bg-blue-400" },
+      { text: "Erg", color: "bg-yellow-500" },
+      { text: "S&C", color: "bg-yellow-300" },
+      { text: "XT", color: "bg-green-400" },
+      { text: "Test", color: "bg-red-400" },
     ];
     const rpeText = [
       { number: 0, title: "", color: "" },
@@ -176,10 +156,12 @@ export default {
       emit("close");
       emit("fetch");
     };
+
     const updateType = (name) => {
       type.value = name;
       activeType.value = name;
     };
+
     const submit = async () => {
       if (type.value) {
         getWeekNumber();

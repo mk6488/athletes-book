@@ -7,6 +7,8 @@ import Home from '../views/Home.vue'
 import Athlete from '../views/Athlete.vue'
 import TrainingLoad from '../views/TrainingLoad.vue'
 import Wellness from '../views/Wellness.vue'
+import Test from '../views/Test.vue'
+import Comment from '../views/Comment.vue'
 
 
 const routes = [{
@@ -30,6 +32,20 @@ const routes = [{
   {
     path: '/wellness',
     component: Wellness,
+    meta: {
+      middleware: 'auth'
+    }
+  },
+  {
+    path: '/test',
+    component: Test,
+    meta: {
+      middleware: 'auth'
+    }
+  },
+  {
+    path: '/comment',
+    component: Comment,
     meta: {
       middleware: 'auth'
     }

@@ -1,7 +1,7 @@
 <template>
   <section class="flex flex-wrap w-full">
     <div class="m-auto">
-      <h1 class="text-4xl my-5 text-center text-indigo-700">Athlete</h1>
+      <h1 class="text-4xl my-5 text-center text-indigo-700">Athletes</h1>
       <!-- List of Training Loads -->
       <div>
         <div class="flex justify-around">

@@ -12,11 +12,15 @@ const trainingLoads = require('./routes/api/training-loads')
 const athletes = require('./routes/api/athletes')
 const users = require('./routes/api/users')
 const wellness = require('./routes/api/wellness')
+const tests = require('./routes/api/tests')
+const comments = require('./routes/api/comments')
 
 app.use('/api/training-loads', trainingLoads)
 app.use('/api/users', users)
 app.use('/api/athletes', athletes)
 app.use('/api/wellness', wellness)
+app.use('/api/tests', tests)
+app.use('/api/comments', comments)
 
 // Handle production
 if (process.env.node_ENV === 'production') {

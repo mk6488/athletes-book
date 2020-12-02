@@ -28,9 +28,11 @@ export default {
   setup() {
     const list = [
       { title: "Home", to: "/" },
-      { title: "Athlete", to: "/athlete" },
-      { title: "Training Load", to: "/training-load" },
+      { title: "Athletes", to: "/athlete" },
+      { title: "Training Loads", to: "/training-load" },
       { title: "Wellness", to: "/wellness" },
+      { title: "Tests", to: "/test" },
+      { title: "Comments", to: "/comment" },
     ];
 
     const isLoggedIn = computed(() => store.state.isLoggedIn);

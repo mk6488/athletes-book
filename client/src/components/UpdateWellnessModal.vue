@@ -142,7 +142,7 @@
                 @click="submit"
                 class="p-2 w-full bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white border border-indigo-500 hover:border-transparent rounded"
               >
-                Submit
+                Update
               </button>
             </div>
           </div>

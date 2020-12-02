@@ -84,7 +84,7 @@
                 @click="submit"
                 class="p-2 w-full bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white border border-indigo-500 hover:border-transparent rounded"
               >
-                Submit
+                Update
               </button>
             </div>
           </div>
@@ -147,7 +147,7 @@ export default {
     const duration = ref(60);
     const rpe = ref(3);
     const activeType = ref("");
-    const athleteName = ref("Athlete Name");
+    const athleteName = ref("");
     const load = computed(() => duration.value * rpe.value);
 
     onMounted(() => {
@@ -183,10 +183,12 @@ export default {
       emit("close");
       emit("fetch");
     };
+
     const updateType = (name) => {
       type.value = name;
       activeType.value = name;
     };
+
     const submit = async () => {
       getWeekNumber();
       await TrainingLoadService.updateOne(
