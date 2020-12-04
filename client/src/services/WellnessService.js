@@ -17,6 +17,26 @@ class WellnessService {
     })
   }
 
+  // static getFor(athleteId) {
+  //   return axios.get(`wellness/${athleteId}`)
+  //     .then(res => console.log(res.data))
+  // }
+
+  static getFor(athleteId) {
+    return new Promise((resolve, reject) => {
+      axios.get(`wellness/${athleteId}`)
+        .then(({
+          data
+        }) => {
+          resolve(data.map(filteredWellness => ({
+            ...filteredWellness,
+            createdAt: new Date(filteredWellness.createdAt)
+          })))
+        })
+        .catch((error) => reject(error))
+    })
+  }
+
   // Create
   static createOne(athleteId, wellnessDate, weekNumber, athleteName, sleep, stress, fatigue, soreness, nutrition, average) {
     return axios.post('wellness', {

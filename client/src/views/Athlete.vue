@@ -1,85 +1,121 @@
 <template>
-  <section class="flex flex-wrap w-full">
+  <section class="flex flex-wrap w-full mt-10">
     <div class="m-auto">
-      <h1 class="text-4xl my-5 text-center text-indigo-700">Athletes</h1>
       <!-- List of Training Loads -->
       <div>
-        <div class="flex justify-around">
+        <div class="flex justify-between mb-2">
+          <h1 class="text-4xl text-indigo-700">Athletes</h1>
           <button
             @click="addPressed"
-            class="text-indigo-700 border rounded hover:bg-indigo-500 hover:text-white p-2"
+            class="text-indigo-700 border rounded hover:bg-indigo-500 hover:text-white p-2 h-1/2"
           >
             Add Athlete
           </button>
-        </div>
-
-        <div class="flex justify-between mb-2">
-          <h1 class="text-indigo-700 p-2">Latest Athletes</h1>
           <h1 class="text-white bg-indigo-400 rounded-full p-2">
             {{ athleteCount }}
           </h1>
         </div>
 
         <p class="text-sm text-red-700" v-if="error">{{ error }}</p>
-        <table class="w-full border-separate border border-green-800">
+        <table class="min-w-full divide-y divide-gray-200">
           <thead>
             <tr>
-              <th class="border border-indigo-600 px-2">Name</th>
-              <th class="border border-indigo-600 px-2">Squad</th>
-              <th class="border border-indigo-600 px-2">Current</th>
-              <th class="border border-indigo-600 px-2">Weight</th>
-              <th class="border border-indigo-600 px-2">DofE</th>
-              <th class="border border-indigo-600 px-2">D.O.B</th>
-              <th class="border border-indigo-600 px-2">Age</th>
-              <th class="border border-indigo-600 px-2">Actions</th>
+              <th
+                scope="col"
+                class="px-6 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Name
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Squad
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Current
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Weight
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                DofE
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                D.O.B
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Age
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Actions
+              </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="bg-white divide-y divide-gray-200">
             <tr v-for="athlete in state.athletes" :key="athlete.id">
               <td
-                class="border border-indigo-600 text-center text-xs px-2"
+                class="px-6 py-4 whitespace-nowrap"
                 :class="athlete.current === false ? 'text-red-700' : ''"
               >
                 {{ athlete.firstName + " " + athlete.lastName }}
               </td>
               <td
-                class="border border-indigo-600 text-center text-xs px-2"
+                class="px-6 py-4 whitespace-nowrap"
                 :class="athlete.current === false ? 'text-red-700' : ''"
               >
                 {{ athlete.squad }}
               </td>
               <td
-                class="border border-indigo-600 text-center text-xs px-2 cursor-pointer"
+                class="px-6 py-4 whitespace-nowrap cursor-pointer"
                 :class="athlete.current === false ? 'text-red-700' : ''"
                 @click="toggleCurrent(athlete._id, athlete.current)"
               >
                 {{ athlete.current === true ? "✅ " : "⛔️" }}
               </td>
               <td
-                class="border border-indigo-600 text-center text-xs px-2"
+                class="px-6 py-4 whitespace-nowrap"
                 :class="athlete.current === false ? 'text-red-700' : ''"
               >
                 {{ athlete.weight ? `${athlete.weight} kg` : "" }}
               </td>
               <td
-                class="border border-indigo-600 text-center text-xs px-2"
+                class="px-6 py-4 whitespace-nowrap"
                 :class="athlete.current === false ? 'text-red-700' : ''"
               >
                 {{ athlete.dofe }}
               </td>
               <td
-                class="border border-indigo-600 text-center text-xs px-2"
+                class="px-6 py-4 whitespace-nowrap"
                 :class="athlete.current === false ? 'text-red-700' : ''"
               >
                 {{ athlete.dob }}
               </td>
               <td
-                class="border border-indigo-600 text-center text-xs px-2"
+                class="px-6 py-4 whitespace-nowrap"
                 :class="athlete.current === false ? 'text-red-700' : ''"
               >
                 {{ age(athlete.dob) }}
               </td>
-              <td class="border border-indigo-600 text-center text-xs px-2">
+              <td class="px-6 py-4 whitespace-nowrap">
                 <div class="flex justify-evenly">
                   <button
                     @click="updatePressed(athlete)"
@@ -92,7 +128,8 @@
                           ? 'text-gray-400 cursor-not-allowed'
                           : 'text-yellow-500'
                       "
-                    ></i>
+                    >
+                    </i>
                   </button>
                 </div>
               </td>

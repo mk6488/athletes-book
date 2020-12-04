@@ -1,13 +1,15 @@
 <template>
-  <div>
-    <AppHeader />
-    <div class="w-full flex">
-      <router-view></router-view>
+  <div class="bg-blue-100 w-screen h-screen px-8 py-8">
+    <div class="w-full h-full rounded-xl bg-white overflow-y-scroll">
+      <AppHeader class="sticky top-0" />
+      <div class="w-full h-full">
+        <router-view></router-view>
+      </div>
+      <teleport to="body">
+        <LoginModal />
+        <RegisterModal />
+      </teleport>
     </div>
-    <teleport to="body">
-      <LoginModal />
-      <RegisterModal />
-    </teleport>
   </div>
 </template>
 
@@ -48,10 +50,4 @@ export default {
 </script>
 
 <style>
-input:focus,
-select:focus,
-textarea:focus,
-button:focus {
-  outline: none;
-}
 </style>

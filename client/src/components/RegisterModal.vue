@@ -11,41 +11,45 @@
             <h1 class="text-2xl text-center text-indigo-700">Login</h1>
             <form class="p-2 my-2" @submit.prevent="submit">
               <div class="my-4">
-                <label>First Name</label>
-                <input
-                  ref="focuseRef"
-                  v-model="firstName"
-                  class="rounded shadow p-2 w-full"
-                  type="text"
-                  placeholder="Enter Your First Name"
-                />
+                <label
+                  >First Name
+                  <input
+                    ref="focuseRef"
+                    v-model="firstName"
+                    class="rounded shadow p-2 w-full"
+                    type="text"
+                  />
+                </label>
               </div>
               <div class="my-4">
-                <label>Last Name</label>
-                <input
-                  v-model="lastName"
-                  class="rounded shadow p-2 w-full"
-                  type="text"
-                  placeholder="Enter Your Last Name"
-                />
+                <label
+                  >Last Name
+                  <input
+                    v-model="lastName"
+                    class="rounded shadow p-2 w-full"
+                    type="text"
+                  />
+                </label>
               </div>
               <div class="my-4">
-                <label>Email</label>
-                <input
-                  v-model="email"
-                  class="rounded shadow p-2 w-full"
-                  type="email"
-                  placeholder="Enter Your Email"
-                />
+                <label
+                  >Email
+                  <input
+                    v-model="email"
+                    class="rounded shadow p-2 w-full"
+                    type="email"
+                  />
+                </label>
               </div>
               <div class="my-4">
-                <label>Password</label>
-                <input
-                  v-model="password"
-                  class="rounded shadow p-2 w-full"
-                  type="password"
-                  placeholder="Create A Password"
-                />
+                <label
+                  >Password
+                  <input
+                    v-model="password"
+                    class="rounded shadow p-2 w-full"
+                    type="password"
+                  />
+                </label>
               </div>
               <div class="my-4">
                 <button

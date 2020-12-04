@@ -11,25 +11,25 @@
             <h1 class="text-2xl text-center text-indigo-700">Login</h1>
             <form class="p-2 my-2" @submit.prevent="submit">
               <div class="my-4">
-                <label for="email">Email</label>
-                <input
-                  ref="focuseRef"
-                  v-model="email"
-                  class="rounded shadow p-2 w-full"
-                  id="email"
-                  type="text"
-                  placeholder="Enter your email"
-                />
+                <label
+                  >Email
+                  <input
+                    ref="focuseRef"
+                    v-model="email"
+                    class="rounded shadow p-2 w-full"
+                    type="text"
+                  />
+                </label>
               </div>
               <div class="my-4">
-                <label for="password">Password</label>
-                <input
-                  v-model="password"
-                  class="rounded shadow p-2 w-full"
-                  id="password"
-                  type="password"
-                  placeholder="Enter your password"
-                />
+                <label
+                  >Password
+                  <input
+                    v-model="password"
+                    class="rounded shadow p-2 w-full"
+                    type="password"
+                  />
+                </label>
               </div>
               <div class="my-4">
                 <button

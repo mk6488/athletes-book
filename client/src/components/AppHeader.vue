@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="w-full bg-gradient-to-r from-indigo-800 to-indigo-600 text-bold text-white p-4"
+    class="w-full bg-gradient-to-r from-indigo-800 to-indigo-600 text-bold text-white p-6 rounded-t-xl shadow-xl"
   >
     <router-link
       v-for="item in list"
@@ -28,6 +28,7 @@ export default {
   setup() {
     const list = [
       { title: "Home", to: "/" },
+      { title: "Dashboard", to: "/dashboard" },
       { title: "Athletes", to: "/athlete" },
       { title: "Training Loads", to: "/training-load" },
       { title: "Wellness", to: "/wellness" },

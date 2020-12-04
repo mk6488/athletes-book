@@ -1,9 +1,8 @@
 <template>
-  <section class="flex flex-wrap w-full">
+  <section class="flex w-full mt-10">
     <div class="m-auto">
-      <h1 class="text-4xl my-5 text-center text-indigo-700">Wellness</h1>
       <!-- Athlete Buttons -->
-      <div class="flex flex-wrap">
+      <div class="flex flex-wrap w-2/3 m-auto">
         <div
           class="w-1/5 h-12 p-1"
           v-for="athlete in state.athletes"
@@ -11,7 +10,7 @@
         >
           <button
             @click="athletePressed(athlete)"
-            class="w-full h-full bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white border border-indigo-500 hover:border-transparent rounded"
+            class="shadow w-full h-full bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white border border-indigo-500 hover:border-transparent rounded"
           >
             {{ athlete.firstName }}
           </button>
@@ -19,59 +18,109 @@
       </div>
 
       <!-- List of Wellness -->
-      <div class="mt-10">
+      <div class="mt-20">
         <div class="flex justify-between mb-2">
-          <h1 class="text-indigo-700 p-2">Latest Wellness Data</h1>
-          <h2 class="text-white bg-indigo-400 rounded-full p-2">
+          <h1 class="text-4xl text-indigo-700">Wellness</h1>
+          <h1 class="text-white bg-indigo-400 rounded-full p-2">
             {{ wellnessCount }}
-          </h2>
+          </h1>
         </div>
         <p class="text-sm text-red-700" v-if="error">{{ error }}</p>
-        <table class="w-full border-separate border border-green-800">
+        <table class="min-w-full divide-y divide-gray-200">
           <thead>
             <tr>
-              <th class="border border-indigo-600 px-2">Date</th>
-              <th class="border border-indigo-600 px-2">Week #</th>
-              <th class="border border-indigo-600 px-2">Athlete</th>
-              <th class="border border-indigo-600 px-2">Sleep</th>
-              <th class="border border-indigo-600 px-2">Stress</th>
-              <th class="border border-indigo-600 px-2">Fatigue</th>
-              <th class="border border-indigo-600 px-2">Soreness</th>
-              <th class="border border-indigo-600 px-2">Nutrition</th>
-              <th class="border border-indigo-600 px-2">Average</th>
-              <th class="border border-indigo-600 px-2">Actions</th>
+              <th
+                scope="col"
+                class="px-6 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Date
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Week #
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Athlete
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Sleep
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Stress
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Fatigue
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Soreness
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Nutrition
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Average
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Actions
+              </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="bg-white divide-y divide-gray-200">
             <tr v-for="wellness in state.wellness" :key="wellness.id">
-              <td class="border border-indigo-600 text-center text-xs px-2">
+              <td class="px-6 py-4 whitespace-nowrap">
                 {{ correctDate(wellness.wellnessDate) }}
               </td>
-              <td class="border border-indigo-600 text-center text-xs px-2">
+              <td class="px-6 py-4 whitespace-nowrap">
                 {{ wellness.weekNumber }}
               </td>
-              <td class="border border-indigo-600 text-center text-xs px-2">
+              <td class="px-6 py-4 whitespace-nowrap">
                 {{ wellness.athleteName }}
               </td>
-              <td class="border border-indigo-600 text-center text-xs px-2">
+              <td class="px-6 py-4 whitespace-nowrap">
                 {{ wellness.sleep }}
               </td>
-              <td class="border border-indigo-600 text-center text-xs px-2">
+              <td class="px-6 py-4 whitespace-nowrap">
                 {{ wellness.stress }}
               </td>
-              <td class="border border-indigo-600 text-center text-xs px-2">
+              <td class="px-6 py-4 whitespace-nowrap">
                 {{ wellness.fatigue }}
               </td>
-              <td class="border border-indigo-600 text-center text-xs px-2">
+              <td class="px-6 py-4 whitespace-nowrap">
                 {{ wellness.soreness }}
               </td>
-              <td class="border border-indigo-600 text-center text-xs px-2">
+              <td class="px-6 py-4 whitespace-nowrap">
                 {{ wellness.nutrition }}
               </td>
-              <td class="border border-indigo-600 text-center text-xs px-2">
+              <td class="px-6 py-4 whitespace-nowrap">
                 {{ wellness.average }}
               </td>
-              <td class="border border-indigo-600 text-center text-xs px-2">
+              <td class="px-6 py-4 whitespace-nowrap">
                 <div class="flex justify-evenly">
                   <button>
                     <i

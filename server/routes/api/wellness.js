@@ -11,11 +11,18 @@ router.get('/', async (req, res) => {
   }).toArray())
 })
 
+router.get('/:name', async (req, res) => {
+  const collection = await wellnessCollection()
+  res.send(await collection.find({
+    athleteId: req.params.name
+  }).toArray())
+})
+
 // Add
 router.post('/', async (req, res) => {
   const collection = await wellnessCollection()
   await collection.insertOne({
-    athlete: req.body.athlete,
+    athleteId: req.body.athleteId,
     wellnessDate: req.body.wellnessDate,
     weekNumber: req.body.weekNumber,
     athleteName: req.body.athleteName,
