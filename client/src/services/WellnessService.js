@@ -17,11 +17,6 @@ class WellnessService {
     })
   }
 
-  // static getFor(athleteId) {
-  //   return axios.get(`wellness/${athleteId}`)
-  //     .then(res => console.log(res.data))
-  // }
-
   static getFor(athleteId) {
     return new Promise((resolve, reject) => {
       axios.get(`wellness/${athleteId}`)

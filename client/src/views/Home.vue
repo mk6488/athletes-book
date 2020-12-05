@@ -1,10 +1,10 @@
 <template>
-  <section class="flex flex-wrap w-full">
-    <div class="m-auto">
-      <h1 class="text-4xl my-5 text-center text-indigo-700">Home</h1>
-      <h5>Hello {{ user }}</h5>
+  <div class="mt-10">
+    <div>
+      <h1 class="text-3xl my-5 text-center text-indigo-700">Home</h1>
+      <h5 class="text-center">Hello {{ user }}</h5>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>

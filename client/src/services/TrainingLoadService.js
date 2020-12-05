@@ -17,6 +17,21 @@ class TrainingLoadService {
     })
   }
 
+  static getFor(athleteId) {
+    return new Promise((resolve, reject) => {
+      axios.get(`wellness/${athleteId}`)
+        .then(({
+          data
+        }) => {
+          resolve(data.map(filteredTrainingLoad => ({
+            ...filteredTrainingLoad,
+            createdAt: new Date(filteredTrainingLoad.createdAt)
+          })))
+        })
+        .catch((error) => reject(error))
+    })
+  }
+
   // Create
   static createOne(athleteId, trainingDate, weekNumber, athleteName, type, duration, rpe, load) {
     return axios.post('training-loads', {

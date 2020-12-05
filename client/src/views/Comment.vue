@@ -1,26 +1,28 @@
 <template>
-  <section class="flex flex-wrap w-full mt-10">
-    <div class="m-auto">
+  <div class="mt-10">
+    <div class="flex flex-wrap justify-center">
       <!-- Athlete Buttons -->
-      <div class="flex flex-wrap w-2/3 m-auto">
-        <div
-          class="w-1/5 h-12 p-1"
-          v-for="athlete in state.athletes"
-          :key="athlete.firstName"
-        >
-          <button
-            @click="athletePressed(athlete)"
-            class="shadow w-full h-full bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white border border-indigo-500 hover:border-transparent rounded"
+      <section>
+        <div class="flex flex-wrap w-2/3 m-auto">
+          <div
+            class="w-1/5 h-12 p-1"
+            v-for="athlete in state.athletes"
+            :key="athlete.firstName"
           >
-            {{ athlete.firstName }}
-          </button>
+            <button
+              @click="athletePressed(athlete)"
+              class="shadow w-full h-full bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white border border-indigo-500 hover:border-transparent rounded"
+            >
+              {{ athlete.firstName }}
+            </button>
+          </div>
         </div>
-      </div>
+      </section>
 
       <!-- List of Comments -->
       <div class="mt-20">
         <div class="flex justify-between mb-2">
-          <h1 class="text-4xl text-indigo-700">Comments</h1>
+          <h1 class="text-3xl text-indigo-700">Comments</h1>
           <h1 class="text-white bg-indigo-400 rounded-full p-2">
             {{ commentsCount }}
           </h1>
@@ -30,38 +32,32 @@
           <thead>
             <tr>
               <th
-                scope="col"
-                class="px-6 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                class="px-3 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
                 Date
               </th>
               <th
-                scope="col"
-                class="px-6 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                class="px-3 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
                 Week #
               </th>
               <th
-                scope="col"
-                class="px-6 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                class="px-3 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
                 Athlete
               </th>
               <th
-                scope="col"
-                class="px-6 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                class="px-3 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
                 Type
               </th>
               <th
-                scope="col"
-                class="px-6 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                class="px-3 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
                 Comment
               </th>
               <th
-                scope="col"
-                class="px-6 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                class="px-3 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
                 Actions
               </th>
@@ -69,17 +65,17 @@
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
             <tr v-for="comment in state.comments" :key="comment.id">
-              <td class="px-6 py-4 whitespace-nowrap">
+              <td class="px-3 py-4 text-sm">
                 {{ correctDate(comment.commentDate) }}
               </td>
-              <td class="px-6 py-4 whitespace-nowrap">
+              <td class="px-3 py-4 text-sm">
                 {{ comment.weekNumber }}
               </td>
-              <td class="px-6 py-4 whitespace-nowrap">
+              <td class="px-3 py-4 text-sm">
                 {{ comment.athleteName }}
               </td>
               <td
-                class="px-6 py-4 whitespace-nowrap"
+                class="px-3 py-4 text-sm"
                 :class="[
                   comment.commentType === 'Incident' ? 'bg-red-200' : '',
                   comment.commentType === 'Medical' ? 'bg-yellow-200' : '',
@@ -88,20 +84,20 @@
               >
                 {{ comment.commentType }}
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-xs">
+              <td class="px-3 py-4 text-sm">
                 {{ comment.comment }}
               </td>
-              <td class="px-6 py-4 whitespace-nowrap">
+              <td class="px-3 py-4 text-sm">
                 <div class="flex justify-evenly">
                   <button>
                     <i
-                      class="fa fa-pencil text-yellow-500"
+                      class="fa fa-pencil text-indigo-900"
                       @click="updatePressed(comment)"
                     ></i>
                   </button>
                   <button>
                     <i
-                      class="fas fa-trash text-red-800"
+                      class="fas fa-trash text-red-900"
                       @click="deletePressed(comment._id)"
                     ></i>
                   </button>
@@ -126,7 +122,7 @@
         :commentData="selectedComment"
       />
     </teleport>
-  </section>
+  </div>
 </template>
 
 <script>

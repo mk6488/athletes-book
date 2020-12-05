@@ -11,6 +11,13 @@ router.get('/', async (req, res) => {
   }).toArray())
 })
 
+router.get('/:name', async (req, res) => {
+  const collection = await loadCollection()
+  res.send(await collection.find({
+    athleteId: req.params.name
+  }).toArray())
+})
+
 // Add
 router.post('/', async (req, res) => {
   const collection = await loadCollection()

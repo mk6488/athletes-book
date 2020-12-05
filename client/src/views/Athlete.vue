@@ -1,10 +1,10 @@
 <template>
-  <section class="flex flex-wrap w-full mt-10">
+  <div class="flex flex-wrap w-full mt-10">
     <div class="m-auto">
       <!-- List of Training Loads -->
       <div>
         <div class="flex justify-between mb-2">
-          <h1 class="text-4xl text-indigo-700">Athletes</h1>
+          <h1 class="text-3xl text-indigo-700">Athletes</h1>
           <button
             @click="addPressed"
             class="text-indigo-700 border rounded hover:bg-indigo-500 hover:text-white p-2 h-1/2"
@@ -16,55 +16,47 @@
           </h1>
         </div>
 
-        <p class="text-sm text-red-700" v-if="error">{{ error }}</p>
+        <p class="text-sm text-red-900" v-if="error">{{ error }}</p>
         <table class="min-w-full divide-y divide-gray-200">
           <thead>
             <tr>
               <th
-                scope="col"
-                class="px-6 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                class="px-3 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
                 Name
               </th>
               <th
-                scope="col"
-                class="px-6 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                class="px-3 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
                 Squad
               </th>
               <th
-                scope="col"
-                class="px-6 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                class="px-3 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
                 Current
               </th>
               <th
-                scope="col"
-                class="px-6 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                class="px-3 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
                 Weight
               </th>
               <th
-                scope="col"
-                class="px-6 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                class="px-3 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
                 DofE
               </th>
               <th
-                scope="col"
-                class="px-6 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                class="px-3 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
                 D.O.B
               </th>
               <th
-                scope="col"
-                class="px-6 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                class="px-3 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
                 Age
               </th>
               <th
-                scope="col"
-                class="px-6 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                class="px-3 py-3 bg-indigo-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
                 Actions
               </th>
@@ -73,49 +65,53 @@
           <tbody class="bg-white divide-y divide-gray-200">
             <tr v-for="athlete in state.athletes" :key="athlete.id">
               <td
-                class="px-6 py-4 whitespace-nowrap"
-                :class="athlete.current === false ? 'text-red-700' : ''"
+                class="px-3 py-4 text-sm"
+                :class="athlete.current === false ? 'text-red-900' : ''"
               >
                 {{ athlete.firstName + " " + athlete.lastName }}
               </td>
               <td
-                class="px-6 py-4 whitespace-nowrap"
-                :class="athlete.current === false ? 'text-red-700' : ''"
+                class="px-3 py-4 text-sm"
+                :class="athlete.current === false ? 'text-red-900' : ''"
               >
                 {{ athlete.squad }}
               </td>
               <td
-                class="px-6 py-4 whitespace-nowrap cursor-pointer"
-                :class="athlete.current === false ? 'text-red-700' : ''"
+                class="px-3 py-4 cursor-pointer"
+                :class="athlete.current === false ? 'text-red-900' : ''"
                 @click="toggleCurrent(athlete._id, athlete.current)"
               >
-                {{ athlete.current === true ? "✅ " : "⛔️" }}
+                <i
+                  v-if="athlete.current === false"
+                  class="fas fa-ban text-red-900"
+                ></i>
+                <i v-else class="fas fa-check-circle text-green-400"></i>
               </td>
               <td
-                class="px-6 py-4 whitespace-nowrap"
-                :class="athlete.current === false ? 'text-red-700' : ''"
+                class="px-3 py-4 text-sm"
+                :class="athlete.current === false ? 'text-red-900' : ''"
               >
                 {{ athlete.weight ? `${athlete.weight} kg` : "" }}
               </td>
               <td
-                class="px-6 py-4 whitespace-nowrap"
-                :class="athlete.current === false ? 'text-red-700' : ''"
+                class="px-3 py-4 text-sm"
+                :class="athlete.current === false ? 'text-red-900' : ''"
               >
                 {{ athlete.dofe }}
               </td>
               <td
-                class="px-6 py-4 whitespace-nowrap"
-                :class="athlete.current === false ? 'text-red-700' : ''"
+                class="px-3 py-4 text-sm"
+                :class="athlete.current === false ? 'text-red-900' : ''"
               >
                 {{ athlete.dob }}
               </td>
               <td
-                class="px-6 py-4 whitespace-nowrap"
-                :class="athlete.current === false ? 'text-red-700' : ''"
+                class="px-3 py-4 text-sm"
+                :class="athlete.current === false ? 'text-red-900' : ''"
               >
                 {{ age(athlete.dob) }}
               </td>
-              <td class="px-6 py-4 whitespace-nowrap">
+              <td class="px-3 py-4 text-sm">
                 <div class="flex justify-evenly">
                   <button
                     @click="updatePressed(athlete)"
@@ -126,7 +122,7 @@
                       :class="
                         athlete.current === false
                           ? 'text-gray-400 cursor-not-allowed'
-                          : 'text-yellow-500'
+                          : 'text-indigo-900'
                       "
                     >
                     </i>
@@ -151,7 +147,7 @@
         :athleteData="selectedAthlete"
       />
     </teleport>
-  </section>
+  </div>
 </template>
 
 <script>
