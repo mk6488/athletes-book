@@ -103,13 +103,13 @@
                 class="px-3 py-4 text-sm"
                 :class="athlete.current === false ? 'text-red-900' : ''"
               >
-                {{ athlete.dob }}
+                {{ correct(athlete.dob) }}
               </td>
               <td
                 class="px-3 py-4 text-sm"
                 :class="athlete.current === false ? 'text-red-900' : ''"
               >
-                {{ age(athlete.dob) }}
+                {{ age(correct(athlete.dob)) }}
               </td>
               <td class="px-3 py-4 text-sm">
                 <div class="flex justify-evenly">
@@ -185,6 +185,11 @@ export default {
       modalIsOpen.value = true;
     };
 
+    const correct = (date) => {
+      const part = date.split("-");
+      return `${part[2]}/${part[1]}/${part[0]}`;
+    };
+
     const toggleCurrent = async (id, current) => {
       if (current) {
         await AthleteService.toggleCurrent(id, false);
@@ -218,6 +223,7 @@ export default {
       age,
       reloadData,
       addPressed,
+      correct,
       toggleCurrent,
       updatePressed,
     };

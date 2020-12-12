@@ -17,7 +17,7 @@
             <div class="flex justify-start my-4">
               <div class="border-b-2 border-indigo-500">
                 <label class="mr-4">Date:</label>
-                <input class="font-bold" type="text" v-model="commentDate" />
+                <input class="font-bold" type="date" v-model="commentDate" />
               </div>
             </div>
 
@@ -43,7 +43,7 @@
               </div>
               <div class="h-5">
                 <p v-if="!commentType" class="text-xs text-red-600 font-bold">
-                  ** select a training type **
+                  ** select a comment type **
                 </p>
               </div>
             </div>
@@ -94,22 +94,17 @@ export default {
     const activeType = ref("");
 
     onMounted(() => {
-      commentDate.value = reverseDate(props.commentData.commentDate);
+      commentDate.value = props.commentData.commentDate;
       athleteName.value = props.commentData.athleteName;
       commentType.value = props.commentData.commentType;
       comment.value = props.commentData.comment;
       activeType.value = props.commentData.commentType;
     });
 
-    const reverseDate = (date) => {
-      const parts = date.split("/");
-      return parts[2] + "/" + parts[1] + "/" + parts[0];
-    };
-
     const getWeekNumber = () => {
       const commentDateToIsoDate = commentDate.value;
-      const parts = commentDateToIsoDate.split("/");
-      const mydate = new Date(parts[2], parts[1] - 1, parts[0]);
+      const parts = commentDateToIsoDate.split("-");
+      const mydate = new Date(parts[0], parts[1] - 1, parts[2]);
 
       weekNumber.value = new Date(mydate).getWeek();
     };
@@ -117,7 +112,7 @@ export default {
     Date.prototype.getWeek = function () {
       var seasonStart = new Date(this.getFullYear(), 8, 7);
       return Math.ceil(
-        ((this - seasonStart) / 86400000 + seasonStart.getDay() + 1) / 7
+        ((this - seasonStart) / 86400000 + seasonStart.getDay() - 1) / 7
       );
     };
 
@@ -135,7 +130,7 @@ export default {
       getWeekNumber();
       await CommentService.updateOne(
         props.commentData._id,
-        reverseDate(commentDate.value),
+        commentDate.value,
         weekNumber.value,
         commentType.value,
         comment.value

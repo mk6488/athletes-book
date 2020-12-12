@@ -17,7 +17,7 @@
             <div class="flex justify-start my-4">
               <div class="border-b-2 border-indigo-500">
                 <label class="mr-4">Date:</label>
-                <input class="font-bold" type="text" v-model="trainingDate" />
+                <input class="font-bold" type="date" v-model="trainingDate" />
               </div>
             </div>
 
@@ -121,7 +121,7 @@ export default {
       { number: 9, title: "Really Really Hard", color: "text-yellow-500" },
       { number: 10, title: "Maximal", color: "text-red-700" },
     ];
-    const trainingDate = ref(new Date().toLocaleString().split(",")[0]);
+    const trainingDate = ref("");
     const weekNumber = ref(1);
     const type = ref("");
     const duration = ref(60);
@@ -133,22 +133,17 @@ export default {
     const load = computed(() => duration.value * rpe.value);
 
     const getWeekNumber = () => {
-      const trainingDateToIsoDate = trainingDate.value;
-      const parts = trainingDateToIsoDate.split("/");
-      const mydate = new Date(parts[2], parts[1] - 1, parts[0]);
+      const commentDateToIsoDate = trainingDate.value;
+      const parts = commentDateToIsoDate.split("-");
+      const mydate = new Date(parts[0], parts[1] - 1, parts[2]);
 
       weekNumber.value = new Date(mydate).getWeek();
-    };
-
-    const reverseDate = (date) => {
-      const parts = date.split("/");
-      return parts[2] + "/" + parts[1] + "/" + parts[0];
     };
 
     Date.prototype.getWeek = function () {
       var seasonStart = new Date(this.getFullYear(), 8, 7);
       return Math.ceil(
-        ((this - seasonStart) / 86400000 + seasonStart.getDay() + 1) / 7
+        ((this - seasonStart) / 86400000 + seasonStart.getDay() - 1) / 7
       );
     };
 
@@ -167,7 +162,7 @@ export default {
         getWeekNumber();
         await TrainingLoadService.createOne(
           props.athleteData._id,
-          reverseDate(trainingDate.value),
+          trainingDate.value,
           weekNumber.value,
           athleteName.value,
           type.value,

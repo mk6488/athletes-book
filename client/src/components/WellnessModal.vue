@@ -17,7 +17,7 @@
             <div class="flex justify-start my-4">
               <div class="border-b-2 border-indigo-500">
                 <label class="mr-4">Date:</label>
-                <input class="font-bold" type="text" v-model="wellnessDate" />
+                <input class="font-bold" type="date" v-model="wellnessDate" />
               </div>
             </div>
 
@@ -169,7 +169,7 @@ export default {
     const athleteName = computed(
       () => `${props.athleteData.firstName} ${props.athleteData.lastName}`
     );
-    const wellnessDate = ref(new Date().toLocaleString().split(",")[0]);
+    const wellnessDate = ref("");
     const weekNumber = ref("");
     const sleep = ref(1);
     const stress = ref(1);
@@ -200,21 +200,16 @@ export default {
 
     const getWeekNumber = () => {
       const wellnessDateToIsoDate = wellnessDate.value;
-      const parts = wellnessDateToIsoDate.split("/");
-      const mydate = new Date(parts[2], parts[1] - 1, parts[0]);
+      const parts = wellnessDateToIsoDate.split("-");
+      const mydate = new Date(parts[0], parts[1] - 1, parts[2]);
 
       weekNumber.value = new Date(mydate).getWeek();
-    };
-
-    const reverseDate = (date) => {
-      const parts = date.split("/");
-      return parts[2] + "/" + parts[1] + "/" + parts[0];
     };
 
     Date.prototype.getWeek = function () {
       var seasonStart = new Date(this.getFullYear(), 8, 7);
       return Math.ceil(
-        ((this - seasonStart) / 86400000 + seasonStart.getDay() + 1) / 7
+        ((this - seasonStart) / 86400000 + seasonStart.getDay() - 1) / 7
       );
     };
 
@@ -246,7 +241,7 @@ export default {
       getWeekNumber();
       await WellnessService.createOne(
         props.athleteData._id,
-        reverseDate(wellnessDate.value),
+        wellnessDate.value,
         weekNumber.value,
         athleteName.value,
         sleep.value,

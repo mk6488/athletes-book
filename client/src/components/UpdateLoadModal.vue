@@ -17,7 +17,7 @@
             <div class="flex justify-start my-4">
               <div class="border-b-2 border-indigo-500">
                 <label class="mr-4">Date:</label>
-                <input class="font-bold" type="text" v-model="trainingDate" />
+                <input class="font-bold" type="date" v-model="trainingDate" />
               </div>
             </div>
 
@@ -151,7 +151,7 @@ export default {
     const load = computed(() => duration.value * rpe.value);
 
     onMounted(() => {
-      trainingDate.value = reverseDate(props.loadData.trainingDate);
+      trainingDate.value = props.loadData.trainingDate;
       athleteName.value = props.loadData.athleteName;
       type.value = props.loadData.type;
       duration.value = props.loadData.duration;
@@ -159,15 +159,10 @@ export default {
       activeType.value = props.loadData.type;
     });
 
-    const reverseDate = (date) => {
-      const parts = date.split("/");
-      return parts[2] + "/" + parts[1] + "/" + parts[0];
-    };
-
     const getWeekNumber = () => {
       const trainingDateToIsoDate = trainingDate.value;
-      const parts = trainingDateToIsoDate.split("/");
-      const mydate = new Date(parts[2], parts[1] - 1, parts[0]);
+      const parts = trainingDateToIsoDate.split("-");
+      const mydate = new Date(parts[0], parts[1] - 1, parts[2]);
 
       weekNumber.value = new Date(mydate).getWeek();
     };
@@ -175,7 +170,7 @@ export default {
     Date.prototype.getWeek = function () {
       var seasonStart = new Date(this.getFullYear(), 8, 7);
       return Math.ceil(
-        ((this - seasonStart) / 86400000 + seasonStart.getDay() + 1) / 7
+        ((this - seasonStart) / 86400000 + seasonStart.getDay() - 1) / 7
       );
     };
 
@@ -193,7 +188,7 @@ export default {
       getWeekNumber();
       await TrainingLoadService.updateOne(
         props.loadData._id,
-        reverseDate(trainingDate.value),
+        trainingDate.value,
         weekNumber.value,
         type.value,
         duration.value,

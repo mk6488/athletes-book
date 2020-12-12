@@ -96,9 +96,8 @@
                 <div class="flex">
                   <label class="text-gray-400 w-1/4">D.O.B:</label>
                   <input
-                    placeholder="dd/mm/yyyy"
-                    class="w-1/4 border-b-2 border-indigo-400"
-                    type="text"
+                    class="w-1/2 border-b-2 border-indigo-400"
+                    type="date"
                     v-model="dob"
                   />
                 </div>

@@ -6,7 +6,7 @@
     ></section>
     <div class="absolute inset-0">
       <div class="flex h-full">
-        <div class="z-30 m-auto bg-white p-2 rounded-xl shadow-xl">
+        <div class="z-30 w-1/3 m-auto bg-white p-2 rounded-xl shadow-xl">
           <div class="p-2 border rounded">
             <!-- Athlete Name -->
             <div class="text-5xl font-light text-indigo-700 text-center">
@@ -17,7 +17,7 @@
             <div class="flex justify-start my-4">
               <div class="border-b-2 border-indigo-500">
                 <label class="mr-4">Date:</label>
-                <input class="font-bold" type="text" v-model="wellnessDate" />
+                <input class="font-bold" type="date" v-model="wellnessDate" />
               </div>
             </div>
 
@@ -191,7 +191,7 @@ export default {
 
     onMounted(() => {
       console.log(props.wellnessData);
-      wellnessDate.value = reverseDate(props.wellnessData.wellnessDate);
+      wellnessDate.value = props.wellnessData.wellnessDate;
       athleteName.value = props.wellnessData.athleteName;
       sleep.value = props.wellnessData.sleep;
       stress.value = props.wellnessData.stress;
@@ -205,15 +205,10 @@ export default {
       activeNutrition.value = props.wellnessData.nutrition;
     });
 
-    const reverseDate = (date) => {
-      const parts = date.split("/");
-      return parts[2] + "/" + parts[1] + "/" + parts[0];
-    };
-
     const getWeekNumber = () => {
       const wellnessDateToIsoDate = wellnessDate.value;
-      const parts = wellnessDateToIsoDate.split("/");
-      const mydate = new Date(parts[2], parts[1] - 1, parts[0]);
+      const parts = wellnessDateToIsoDate.split("-");
+      const mydate = new Date(parts[0], parts[1] - 1, parts[2]);
 
       weekNumber.value = new Date(mydate).getWeek();
     };
@@ -221,7 +216,7 @@ export default {
     Date.prototype.getWeek = function () {
       var seasonStart = new Date(this.getFullYear(), 8, 7);
       return Math.ceil(
-        ((this - seasonStart) / 86400000 + seasonStart.getDay() + 1) / 7
+        ((this - seasonStart) / 86400000 + seasonStart.getDay() - 1) / 7
       );
     };
 
@@ -253,7 +248,7 @@ export default {
       getWeekNumber();
       await WellnessService.updateOne(
         props.wellnessData._id,
-        reverseDate(wellnessDate.value),
+        wellnessDate.value,
         weekNumber.value,
         sleep.value,
         stress.value,

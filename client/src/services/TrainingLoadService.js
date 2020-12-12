@@ -19,7 +19,7 @@ class TrainingLoadService {
 
   static getFor(athleteId) {
     return new Promise((resolve, reject) => {
-      axios.get(`wellness/${athleteId}`)
+      axios.get(`training-loads/${athleteId}`)
         .then(({
           data
         }) => {

@@ -20,6 +20,7 @@
 <script>
 import { ref, reactive, onMounted } from "vue";
 import WellnessService from "../services/WellnessService";
+import TrainingLoadService from "../services/TrainingLoadService";
 import VueApexCharts from "vue3-apexcharts";
 
 export default {
@@ -35,23 +36,38 @@ export default {
       soreness: [],
       nutrition: [],
       average: [],
+      load: [],
+      sleepLoad: [],
     });
 
     onMounted(() => {
       makeChart();
+      const sortedArray = chart.sleepLoad.sort((a, b) => {
+        return a.date - b.date;
+      });
+      console.log(sortedArray);
     });
 
     const makeChart = async () => {
-      const data = await WellnessService.getFor("5fba2a3efd7460810fd6dc4d");
+      const wellnessData = await WellnessService.getFor(
+        "5fba2a3efd7460810fd6dc4d"
+      );
 
-      data.forEach((d) => {
-        chart.dates.push(correctDate(d.wellnessDate));
+      wellnessData.forEach((d) => {
+        chart.dates.push(correct(d.wellnessDate));
         chart.sleep.push(d.sleep);
         chart.stress.push(d.stress);
         chart.fatigue.push(d.fatigue);
         chart.soreness.push(d.soreness);
         chart.nutrition.push(d.nutrition);
         chart.average.push(d.average);
+      });
+
+      const loadData = await TrainingLoadService.getFor(
+        "5fba2a3efd7460810fd6dc4d"
+      );
+      loadData.forEach((d) => {
+        chart.load.push({ date: d.trainingDate, load: d.load });
       });
 
       series.value = [
@@ -84,8 +100,8 @@ export default {
       };
     };
 
-    const correctDate = (date) => {
-      const parts = date.split("/");
+    const correct = (date) => {
+      const parts = date.split("-");
       return parts[2] + "/" + parts[1];
     };
 
@@ -94,7 +110,7 @@ export default {
       chartOptions,
       chart,
       makeChart,
-      correctDate,
+      correct,
     };
   },
 };

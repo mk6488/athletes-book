@@ -50,4 +50,9 @@ export default {
 </script>
 
 <style>
+input:focus,
+textarea:focus,
+button:focus {
+  outline: none;
+}
 </style>

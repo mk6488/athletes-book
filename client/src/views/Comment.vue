@@ -66,7 +66,7 @@
           <tbody class="bg-white divide-y divide-gray-200">
             <tr v-for="comment in state.comments" :key="comment.id">
               <td class="px-3 py-4 text-sm">
-                {{ correctDate(comment.commentDate) }}
+                {{ correct(comment.commentDate) }}
               </td>
               <td class="px-3 py-4 text-sm">
                 {{ comment.weekNumber }}
@@ -149,11 +149,6 @@ export default {
       get: () => state.comments.length,
     });
 
-    const correctDate = (date) => {
-      const parts = date.split("/");
-      return parts[2] + "/" + parts[1] + "/" + parts[0];
-    };
-
     const reloadData = async () => {
       state.comments = await CommentService.getAll();
     };
@@ -173,6 +168,11 @@ export default {
       state.comments = await CommentService.getAll();
     };
 
+    const correct = (date) => {
+      const part = date.split("-");
+      return `${part[2]}/${part[1]}/${part[0]}`;
+    };
+
     onMounted(async () => {
       try {
         state.athletes = await AthleteService.getAllActive();
@@ -190,11 +190,11 @@ export default {
       modalIsOpen,
       updateModalIsOpen,
       commentsCount,
-      correctDate,
       reloadData,
       athletePressed,
       updatePressed,
       deletePressed,
+      correct,
     };
   },
 };

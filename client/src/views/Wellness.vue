@@ -87,7 +87,7 @@
             <tbody class="bg-white divide-y divide-gray-200">
               <tr v-for="wellness in state.wellness" :key="wellness.id">
                 <td class="px-3 py-4 text-sm">
-                  {{ correctDate(wellness.wellnessDate) }}
+                  {{ correct(wellness.wellnessDate) }}
                 </td>
                 <td class="px-3 py-4 text-sm">
                   {{ wellness.weekNumber }}
@@ -173,9 +173,9 @@ export default {
       get: () => state.wellness.length,
     });
 
-    const correctDate = (date) => {
-      const parts = date.split("/");
-      return parts[2] + "/" + parts[1] + "/" + parts[0];
+    const correct = (date) => {
+      const part = date.split("-");
+      return `${part[2]}/${part[1]}/${part[0]}`;
     };
 
     const reloadData = async () => {
@@ -214,7 +214,7 @@ export default {
       modalIsOpen,
       updateModalIsOpen,
       wellnessCount,
-      correctDate,
+      correct,
       reloadData,
       athletePressed,
       updatePressed,

@@ -2,7 +2,11 @@
   <nav
     class="w-full bg-gradient-to-r from-indigo-800 to-indigo-600 text-bold text-white p-6 rounded-t-xl shadow-lg"
   >
-    <router-link v-for="item in list" :key="item.to" class="mx-3" :to="item.to"
+    <router-link
+      v-for="item in list"
+      :key="item.to"
+      class="mx-3 text-xl"
+      :to="item.to"
       ><i v-if="item.icon" :class="item.icon"></i> {{ item.title }}</router-link
     >
     <button v-if="isLoggedIn" class="mx-3 float-right" @click="logout">
@@ -30,6 +34,7 @@ export default {
       { title: "", to: "/test", icon: "fas fa-vial" },
       { title: "", to: "/training-load", icon: "fas fa-sort-amount-up" },
       { title: "", to: "/wellness", icon: "fas fa-spa" },
+      { title: "", to: "/session", icon: "far fa-calendar-alt" },
     ];
 
     const isLoggedIn = computed(() => store.state.isLoggedIn);

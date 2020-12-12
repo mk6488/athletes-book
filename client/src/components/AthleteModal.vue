@@ -16,7 +16,7 @@
             <form class="px-2" @submit.prevent="submit">
               <!-- First Name -->
               <div class="my-6">
-                <div class="flex">
+                <div class="flex items-center">
                   <label class="text-gray-400 w-1/4">First Name:</label>
                   <input
                     class="w-3/4 border-b-2 border-indigo-400"
@@ -27,7 +27,7 @@
               </div>
               <!-- Last Name -->
               <div class="my-6">
-                <div class="flex">
+                <div class="flex items-center">
                   <label class="text-gray-400 w-1/4">Last Name:</label>
                   <input
                     class="w-3/4 border-b-2 border-indigo-400"
@@ -38,7 +38,7 @@
               </div>
               <!-- Squad -->
               <div class="my-6">
-                <div class="flex">
+                <div class="flex items-center">
                   <label class="text-gray-400 w-1/4">Squad:</label>
                   <select
                     class="w-1/4 border-b-2 border-indigo-400"
@@ -56,7 +56,7 @@
               </div>
               <!-- Weight -->
               <div class="my-6">
-                <div class="flex">
+                <div class="flex items-center">
                   <label class="text-gray-400 w-1/4">Weight:</label>
                   <input
                     class="w-1/4 border-b-2 border-indigo-400"
@@ -68,7 +68,7 @@
               </div>
               <!-- DofE -->
               <div class="my-6">
-                <div class="flex">
+                <div class="flex items-center">
                   <label class="text-gray-400 w-1/4">DofE:</label>
                   <input
                     placeholder="number"
@@ -93,12 +93,11 @@
               </div>
               <!-- D.O.B -->
               <div class="my-6">
-                <div class="flex">
+                <div class="flex items-center">
                   <label class="text-gray-400 w-1/4">D.O.B:</label>
                   <input
-                    placeholder="dd/mm/yyyy"
-                    class="w-1/4 border-b-2 border-indigo-400"
-                    type="text"
+                    class="w-1/2 border-b-2 border-indigo-400"
+                    type="date"
                     v-model="dob"
                   />
                 </div>

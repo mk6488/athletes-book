@@ -10,6 +10,8 @@ import TrainingLoad from '../views/TrainingLoad.vue'
 import Wellness from '../views/Wellness.vue'
 import Test from '../views/Test.vue'
 import Comment from '../views/Comment.vue'
+import Session from '../views/Session.vue'
+import NewSession from '../views/NewSession.vue'
 
 
 const routes = [{
@@ -54,6 +56,20 @@ const routes = [{
   {
     path: '/comment',
     component: Comment,
+    meta: {
+      middleware: 'auth'
+    }
+  },
+  {
+    path: '/session',
+    component: Session,
+    meta: {
+      middleware: 'auth'
+    }
+  },
+  {
+    path: '/new-session',
+    component: NewSession,
     meta: {
       middleware: 'auth'
     }

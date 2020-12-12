@@ -17,7 +17,7 @@
             <div class="flex justify-start my-8">
               <div class="border-b-2 border-indigo-500">
                 <label class="mr-4">Date:</label>
-                <input class="font-bold" type="text" v-model="testDate" />
+                <input class="font-bold" type="date" v-model="testDate" />
               </div>
             </div>
 
@@ -82,21 +82,16 @@ export default {
     const result = ref();
 
     onMounted(() => {
-      testDate.value = reverseDate(props.testData.testDate);
+      testDate.value = props.testData.testDate;
       athleteName.value = props.testData.athleteName;
       test.value = props.testData.test;
       result.value = props.testData.result;
     });
 
-    const reverseDate = (date) => {
-      const parts = date.split("/");
-      return parts[2] + "/" + parts[1] + "/" + parts[0];
-    };
-
     const getWeekNumber = () => {
       const testDateToIsoDate = testDate.value;
-      const parts = testDateToIsoDate.split("/");
-      const mydate = new Date(parts[2], parts[1] - 1, parts[0]);
+      const parts = testDateToIsoDate.split("-");
+      const mydate = new Date(parts[0], parts[1] - 1, parts[2]);
 
       weekNumber.value = new Date(mydate).getWeek();
     };
@@ -104,7 +99,7 @@ export default {
     Date.prototype.getWeek = function () {
       var seasonStart = new Date(this.getFullYear(), 8, 7);
       return Math.ceil(
-        ((this - seasonStart) / 86400000 + seasonStart.getDay() + 1) / 7
+        ((this - seasonStart) / 86400000 + seasonStart.getDay() - 1) / 7
       );
     };
 
@@ -117,7 +112,7 @@ export default {
       getWeekNumber();
       await TestService.updateOne(
         props.testData._id,
-        reverseDate(testDate.value),
+        testDate.value,
         weekNumber.value,
         test.value,
         result.value
