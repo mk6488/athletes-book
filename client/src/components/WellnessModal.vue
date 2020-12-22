@@ -155,17 +155,12 @@
 <script>
 import { ref, computed } from "vue";
 import WellnessService from "../services/WellnessService";
+import { wellnessNumbersArray } from "../js/wellnessNumbers";
 
 export default {
   props: ["athleteData"],
   setup(props, { emit }) {
-    const numbers = [
-      { text: "1", value: 1, color: "bg-indigo-300" },
-      { text: "2", value: 2, color: "bg-green-500" },
-      { text: "3", value: 3, color: "bg-yellow-300" },
-      { text: "4", value: 4, color: "bg-yellow-500" },
-      { text: "5", value: 5, color: "bg-red-500" },
-    ];
+    const numbers = wellnessNumbersArray;
     const athleteName = computed(
       () => `${props.athleteData.firstName} ${props.athleteData.lastName}`
     );

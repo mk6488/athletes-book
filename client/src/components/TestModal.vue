@@ -65,16 +65,12 @@
 <script>
 import { ref, computed } from "vue";
 import TestService from "../services/TestService";
+import { testsArray } from "../js/tests";
 
 export default {
   props: ["athleteData"],
   setup(props, { emit }) {
-    const tests = [
-      { text: "500m Test", value: "500m" },
-      { text: "2000m Test", value: "2K" },
-      { text: "5000m Test", value: "5K" },
-      { text: "Bleep Test", value: "Bleep" },
-    ];
+    const tests = testsArray;
     const athleteName = computed(
       () => `${props.athleteData.firstName} ${props.athleteData.lastName}`
     );

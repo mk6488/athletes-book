@@ -97,50 +97,14 @@
 <script>
 import { ref, computed, onMounted } from "vue";
 import TrainingLoadService from "../services/TrainingLoadService";
+import { trainingTypesArray } from "../js/trainingTypes";
+import { rpeTextArray } from "../js/rpeText";
 
 export default {
   props: ["loadData"],
   setup(props, { emit }) {
-    const types = [
-      {
-        text: "Water",
-        color: "bg-blue-400",
-        hover: "bg-blue-500",
-      },
-      {
-        text: "Erg",
-        color: "bg-yellow-500",
-        hover: "bg-yellow-600",
-      },
-      {
-        text: "S&C",
-        color: "bg-yellow-300",
-        hover: "bg-yellow-400",
-      },
-      {
-        text: "XT",
-        color: "bg-green-400",
-        hover: "bg-green-500",
-      },
-      {
-        text: "Test",
-        color: "bg-red-400",
-        hover: "bg-red-500",
-      },
-    ];
-    const rpeText = [
-      { number: 0, title: "", color: "" },
-      { number: 1, title: "Rest", color: "text-blue-400" },
-      { number: 2, title: "Really Easy", color: "text-blue-400" },
-      { number: 3, title: "Easy", color: "text-green-500" },
-      { number: 4, title: "Moderate", color: "text-green-500" },
-      { number: 5, title: "Challenging", color: "text-yellow-300" },
-      { number: 6, title: "Quite Hard", color: "text-yellow-300" },
-      { number: 7, title: "Hard", color: "text-yellow-300" },
-      { number: 8, title: "Really Hard", color: "text-yellow-500" },
-      { number: 9, title: "Really Really Hard", color: "text-yellow-500" },
-      { number: 10, title: "Maximal", color: "text-red-700" },
-    ];
+    const types = trainingTypesArray;
+    const rpeText = rpeTextArray;
     const trainingDate = ref("");
     const weekNumber = ref(1);
     const type = ref("");

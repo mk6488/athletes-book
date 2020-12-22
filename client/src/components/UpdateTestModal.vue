@@ -65,16 +65,12 @@
 <script>
 import { ref, onMounted } from "vue";
 import TestService from "../services/TestService";
+import { testsArray } from "../js/tests";
 
 export default {
   props: ["testData"],
   setup(props, { emit }) {
-    const tests = [
-      { text: "500m Test", value: "500m" },
-      { text: "2000m Test", value: "2K" },
-      { text: "5000m Test", value: "5K" },
-      { text: "Bleep Test", value: "Bleep" },
-    ];
+    const tests = testsArray;
     const testDate = ref("");
     const athleteName = ref("");
     const weekNumber = ref("");

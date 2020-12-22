@@ -120,23 +120,14 @@
 <script>
 import { ref, computed, onMounted } from "vue";
 import AthleteService from "../services/AthleteService";
+import { squadsArray } from "../js/squads";
+import { dofeLevelsArray } from "../js/dofeLevels";
 
 export default {
   props: ["athleteData"],
   setup(props, { emit }) {
-    const squads = [
-      { value: "", text: "" },
-      { value: "J15", text: "J15" },
-      { value: "J16", text: "J16" },
-      { value: "J17", text: "J17" },
-      { value: "J18", text: "J18" },
-    ];
-    const dofeLevels = [
-      { value: "", text: "" },
-      { value: "B", text: "Bronze" },
-      { value: "S", text: "Silver" },
-      { value: "G", text: "Gold" },
-    ];
+    const squads = squadsArray;
+    const dofeLevels = dofeLevelsArray;
     const firstName = ref("");
     const lastName = ref("");
     const squad = ref("");

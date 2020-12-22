@@ -76,16 +76,12 @@
 <script>
 import { ref, computed } from "vue";
 import CommentService from "../services/CommentService";
+import { commentTypesArray } from "../js/commentTypes";
 
 export default {
   props: ["athleteData"],
   setup(props, { emit }) {
-    const commentTypes = [
-      { text: "General", color: "bg-green-200" },
-      { text: "Training", color: "bg-indigo-300" },
-      { text: "Medical", color: "bg-yellow-200" },
-      { text: "Incident", color: "bg-red-200" },
-    ];
+    const commentTypes = commentTypesArray;
     const commentDate = ref("");
     const weekNumber = ref();
     const commentType = ref("");
