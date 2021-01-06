@@ -156,6 +156,7 @@
 import { ref, computed, onMounted } from "vue";
 import WellnessService from "../services/WellnessService";
 import { wellnessNumbersArray } from "../js/wellnessNumbers";
+import { getWeekNumber } from "../js/helpers";
 
 export default {
   props: ["wellnessData"],
@@ -163,7 +164,6 @@ export default {
     const numbers = wellnessNumbersArray;
     const athleteName = ref("Athlete Name");
     const wellnessDate = ref("");
-    const weekNumber = ref(1);
     const sleep = ref(1);
     const stress = ref(1);
     const fatigue = ref(1);
@@ -184,6 +184,11 @@ export default {
         5
     );
 
+    const close = () => {
+      emit("close");
+      emit("fetch");
+    };
+
     onMounted(() => {
       console.log(props.wellnessData);
       wellnessDate.value = props.wellnessData.wellnessDate;
@@ -200,25 +205,6 @@ export default {
       activeNutrition.value = props.wellnessData.nutrition;
     });
 
-    const getWeekNumber = () => {
-      const wellnessDateToIsoDate = wellnessDate.value;
-      const parts = wellnessDateToIsoDate.split("-");
-      const mydate = new Date(parts[0], parts[1] - 1, parts[2]);
-
-      weekNumber.value = new Date(mydate).getWeek();
-    };
-
-    Date.prototype.getWeek = function () {
-      var seasonStart = new Date(this.getFullYear(), 8, 7);
-      return Math.ceil(
-        ((this - seasonStart) / 86400000 + seasonStart.getDay() - 1) / 7
-      );
-    };
-
-    const close = () => {
-      emit("close");
-      emit("fetch");
-    };
     const updateActiveSleep = (num) => {
       sleep.value = num;
       activeSleep.value = num;
@@ -240,11 +226,10 @@ export default {
       activeNutrition.value = num;
     };
     const submit = async () => {
-      getWeekNumber();
       await WellnessService.updateOne(
         props.wellnessData._id,
         wellnessDate.value,
-        weekNumber.value,
+        getWeekNumber(wellnessDate.value),
         sleep.value,
         stress.value,
         fatigue.value,
@@ -270,7 +255,6 @@ export default {
       activeFatigue,
       activeSoreness,
       activeNutrition,
-      close,
       updateActiveSleep,
       updateActiveStress,
       updateActiveFatigue,

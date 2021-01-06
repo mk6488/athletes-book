@@ -173,7 +173,6 @@ export default {
       dofeNumber,
       dofeLevel,
       dob,
-      close,
       submit,
     };
   },

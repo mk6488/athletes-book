@@ -66,6 +66,7 @@
 import { ref, onMounted } from "vue";
 import TestService from "../services/TestService";
 import { testsArray } from "../js/tests";
+import { getWeekNumber } from "../js/helpers";
 
 export default {
   props: ["testData"],
@@ -73,7 +74,6 @@ export default {
     const tests = testsArray;
     const testDate = ref("");
     const athleteName = ref("");
-    const weekNumber = ref("");
     const test = ref("");
     const result = ref();
 
@@ -84,32 +84,16 @@ export default {
       result.value = props.testData.result;
     });
 
-    const getWeekNumber = () => {
-      const testDateToIsoDate = testDate.value;
-      const parts = testDateToIsoDate.split("-");
-      const mydate = new Date(parts[0], parts[1] - 1, parts[2]);
-
-      weekNumber.value = new Date(mydate).getWeek();
-    };
-
-    Date.prototype.getWeek = function () {
-      var seasonStart = new Date(this.getFullYear(), 8, 7);
-      return Math.ceil(
-        ((this - seasonStart) / 86400000 + seasonStart.getDay() - 1) / 7
-      );
-    };
-
     const close = () => {
       emit("close");
       emit("fetch");
     };
 
     const submit = async () => {
-      getWeekNumber();
       await TestService.updateOne(
         props.testData._id,
         testDate.value,
-        weekNumber.value,
+        getWeekNumber(testDate.value),
         test.value,
         result.value
       );
@@ -120,10 +104,8 @@ export default {
       tests,
       athleteName,
       testDate,
-      weekNumber,
       test,
       result,
-      close,
       submit,
     };
   },

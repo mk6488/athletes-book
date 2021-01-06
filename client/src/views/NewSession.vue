@@ -8,25 +8,33 @@
       >
       <h1 class="text-3xl text-indigo-700">New Session</h1>
     </div>
-    <section class="mt-10">
-      <!-- Date -->
-      <div class="flex justify-center">
-        <label>
-          Date
-          <input type="date" v-model="sessionDate" />
-        </label>
-      </div>
-      <div class="flex justify-center">
-        <label>
-          Session type
-          <select v-model="sessionType">
-            <option value="water">Water</option>
-            <option value="sc">S&C</option>
-            <option value="erg">Erg</option>
-          </select>
-        </label>
-      </div>
 
+    <section class="mt-5 flex justify-center">
+      <!-- Date -->
+      <div class="p-2 w-1/4">
+        <div class="">
+          <label class="mr-4">Date:</label>
+          <input class="font-bold" type="date" v-model="sessionDate" />
+        </div>
+      </div>
+      <!-- Session Type -->
+      <div class="p-2 w-1/4">
+        <div class="">
+          <label class="mr-4">Session Type:</label>
+          <select class="font-bold" v-model="sessionType">
+            <option
+              v-for="type in sessionTypes"
+              :key="type.text"
+              :value="type.value"
+            >
+              {{ type.text }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </section>
+    <!-- SESSIONS -->
+    <section class="mt-10">
       <div class="flex justify-center" v-if="sessionType === 'water'">
         <WaterSession />
       </div>
@@ -41,22 +49,21 @@
 </template>
 
 <script>
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import WaterSession from "../components/WaterSession";
 import SCSession from "../components/SCSession";
 import ErgSession from "../components/ErgSession";
+import { now } from "../js/now";
+import { sessionTypesArray } from "../js/sessionTypes";
 
 export default {
   components: { WaterSession, SCSession, ErgSession },
   setup() {
+    const sessionTypes = sessionTypesArray;
     const sessionType = ref("water");
-    const now = computed(() => {
-      const parts = new Date().toLocaleString().split(",")[0].split("/");
-      return `${parts[2]}-${parts[1]}-${parts[0]}`;
-    });
     const sessionDate = ref(now.value);
 
-    return { sessionType, sessionDate };
+    return { sessionTypes, sessionType, sessionDate };
   },
 };
 </script>

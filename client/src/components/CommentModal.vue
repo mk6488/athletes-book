@@ -77,34 +77,19 @@
 import { ref, computed } from "vue";
 import CommentService from "../services/CommentService";
 import { commentTypesArray } from "../js/commentTypes";
+import { now, getWeekNumber } from "../js/helpers";
 
 export default {
   props: ["athleteData"],
   setup(props, { emit }) {
     const commentTypes = commentTypesArray;
-    const commentDate = ref("");
-    const weekNumber = ref();
+    const commentDate = ref(now.value);
     const commentType = ref("");
     const comment = ref("");
     const activeType = ref("");
     const athleteName = computed(
       () => `${props.athleteData.firstName} ${props.athleteData.lastName}`
     );
-
-    const getWeekNumber = () => {
-      const commentDateToIsoDate = commentDate.value;
-      const parts = commentDateToIsoDate.split("-");
-      const mydate = new Date(parts[0], parts[1] - 1, parts[2]);
-
-      weekNumber.value = new Date(mydate).getWeek();
-    };
-
-    Date.prototype.getWeek = function () {
-      var seasonStart = new Date(this.getFullYear(), 8, 7);
-      return Math.ceil(
-        ((this - seasonStart) / 86400000 + seasonStart.getDay() - 1) / 7
-      );
-    };
 
     const close = () => {
       emit("close");
@@ -118,11 +103,10 @@ export default {
 
     const submit = async () => {
       if (commentType.value && comment.value) {
-        getWeekNumber();
         await CommentService.createOne(
           props.athleteData._id,
           commentDate.value,
-          weekNumber.value,
+          getWeekNumber(commentDate.value),
           athleteName.value,
           commentType.value,
           comment.value
@@ -140,7 +124,6 @@ export default {
       commentType,
       comment,
       athleteName,
-      close,
       updateType,
       submit,
     };

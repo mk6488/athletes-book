@@ -156,6 +156,7 @@
 import { ref, computed } from "vue";
 import WellnessService from "../services/WellnessService";
 import { wellnessNumbersArray } from "../js/wellnessNumbers";
+import { now, getWeekNumber } from "../js/helpers";
 
 export default {
   props: ["athleteData"],
@@ -164,8 +165,7 @@ export default {
     const athleteName = computed(
       () => `${props.athleteData.firstName} ${props.athleteData.lastName}`
     );
-    const wellnessDate = ref("");
-    const weekNumber = ref("");
+    const wellnessDate = ref(now.value);
     const sleep = ref(1);
     const stress = ref(1);
     const fatigue = ref(1);
@@ -193,25 +193,11 @@ export default {
       return new Date(mydate).getWeek();
     });
 
-    const getWeekNumber = () => {
-      const wellnessDateToIsoDate = wellnessDate.value;
-      const parts = wellnessDateToIsoDate.split("-");
-      const mydate = new Date(parts[0], parts[1] - 1, parts[2]);
-
-      weekNumber.value = new Date(mydate).getWeek();
-    };
-
-    Date.prototype.getWeek = function () {
-      var seasonStart = new Date(this.getFullYear(), 8, 7);
-      return Math.ceil(
-        ((this - seasonStart) / 86400000 + seasonStart.getDay() - 1) / 7
-      );
-    };
-
     const close = () => {
       emit("close");
       emit("fetch");
     };
+
     const updateActiveSleep = (num) => {
       sleep.value = num;
       activeSleep.value = num;
@@ -233,11 +219,10 @@ export default {
       activeNutrition.value = num;
     };
     const submit = async () => {
-      getWeekNumber();
       await WellnessService.createOne(
         props.athleteData._id,
         wellnessDate.value,
-        weekNumber.value,
+        getWeekNumber(wellnessDate.value),
         athleteName.value,
         sleep.value,
         stress.value,
@@ -265,7 +250,6 @@ export default {
       activeFatigue,
       activeSoreness,
       activeNutrition,
-      close,
       updateActiveSleep,
       updateActiveStress,
       updateActiveFatigue,

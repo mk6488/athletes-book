@@ -59,7 +59,7 @@
                 type="range"
                 min="0"
                 max="180"
-                step="15"
+                step="10"
               />
             </div>
 
@@ -99,6 +99,7 @@ import { ref, computed, onMounted } from "vue";
 import TrainingLoadService from "../services/TrainingLoadService";
 import { trainingTypesArray } from "../js/trainingTypes";
 import { rpeTextArray } from "../js/rpeText";
+import { getWeekNumber } from "../js/helpers";
 
 export default {
   props: ["loadData"],
@@ -106,7 +107,6 @@ export default {
     const types = trainingTypesArray;
     const rpeText = rpeTextArray;
     const trainingDate = ref("");
-    const weekNumber = ref(1);
     const type = ref("");
     const duration = ref(60);
     const rpe = ref(3);
@@ -123,21 +123,6 @@ export default {
       activeType.value = props.loadData.type;
     });
 
-    const getWeekNumber = () => {
-      const trainingDateToIsoDate = trainingDate.value;
-      const parts = trainingDateToIsoDate.split("-");
-      const mydate = new Date(parts[0], parts[1] - 1, parts[2]);
-
-      weekNumber.value = new Date(mydate).getWeek();
-    };
-
-    Date.prototype.getWeek = function () {
-      var seasonStart = new Date(this.getFullYear(), 8, 7);
-      return Math.ceil(
-        ((this - seasonStart) / 86400000 + seasonStart.getDay() - 1) / 7
-      );
-    };
-
     const close = () => {
       emit("close");
       emit("fetch");
@@ -149,11 +134,10 @@ export default {
     };
 
     const submit = async () => {
-      getWeekNumber();
       await TrainingLoadService.updateOne(
         props.loadData._id,
         trainingDate.value,
-        weekNumber.value,
+        getWeekNumber(trainingDate.value),
         type.value,
         duration.value,
         rpe.value,
@@ -172,7 +156,6 @@ export default {
       load,
       athleteName,
       activeType,
-      close,
       updateType,
       submit,
     };

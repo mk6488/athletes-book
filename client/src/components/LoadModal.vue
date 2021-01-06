@@ -59,7 +59,7 @@
                 type="range"
                 min="0"
                 max="180"
-                step="15"
+                step="10"
               />
             </div>
 
@@ -99,14 +99,14 @@ import { ref, computed } from "vue";
 import TrainingLoadService from "../services/TrainingLoadService";
 import { trainingTypesArray } from "../js/trainingTypes";
 import { rpeTextArray } from "../js/rpeText";
+import { now, getWeekNumber } from "../js/helpers";
 
 export default {
   props: ["athleteData"],
   setup(props, { emit }) {
     const types = trainingTypesArray;
     const rpeText = rpeTextArray;
-    const trainingDate = ref("");
-    const weekNumber = ref(1);
+    const trainingDate = ref(now.value);
     const type = ref("");
     const duration = ref(60);
     const rpe = ref(3);
@@ -115,21 +115,6 @@ export default {
       () => `${props.athleteData.firstName} ${props.athleteData.lastName}`
     );
     const load = computed(() => duration.value * rpe.value);
-
-    const getWeekNumber = () => {
-      const commentDateToIsoDate = trainingDate.value;
-      const parts = commentDateToIsoDate.split("-");
-      const mydate = new Date(parts[0], parts[1] - 1, parts[2]);
-
-      weekNumber.value = new Date(mydate).getWeek();
-    };
-
-    Date.prototype.getWeek = function () {
-      var seasonStart = new Date(this.getFullYear(), 8, 7);
-      return Math.ceil(
-        ((this - seasonStart) / 86400000 + seasonStart.getDay() - 1) / 7
-      );
-    };
 
     const close = () => {
       emit("close");
@@ -143,11 +128,10 @@ export default {
 
     const submit = async () => {
       if (type.value) {
-        getWeekNumber();
         await TrainingLoadService.createOne(
           props.athleteData._id,
           trainingDate.value,
-          weekNumber.value,
+          getWeekNumber(trainingDate.value),
           athleteName.value,
           type.value,
           duration.value,
@@ -170,7 +154,6 @@ export default {
       rpeText,
       athleteName,
       load,
-      close,
       updateType,
       submit,
     };
