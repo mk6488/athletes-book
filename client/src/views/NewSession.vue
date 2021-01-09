@@ -34,7 +34,7 @@
       </div>
     </section>
     <!-- SESSIONS -->
-    <section class="mt-10">
+    <section class="mb-10">
       <div class="flex justify-center" v-if="sessionType === 'water'">
         <WaterSession />
       </div>
@@ -53,8 +53,8 @@ import { ref } from "vue";
 import WaterSession from "../components/WaterSession";
 import SCSession from "../components/SCSession";
 import ErgSession from "../components/ErgSession";
-import { now } from "../js/now";
 import { sessionTypesArray } from "../js/sessionTypes";
+import { now } from "../js/helpers";
 
 export default {
   components: { WaterSession, SCSession, ErgSession },
