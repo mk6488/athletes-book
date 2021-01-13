@@ -59,7 +59,7 @@
                 type="range"
                 min="0"
                 max="180"
-                step="10"
+                step="5"
               />
             </div>
 

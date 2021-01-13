@@ -80,9 +80,10 @@
         </div>
       </div>
     </div>
-    <!-- Creats -->
+    <!-- Crews -->
     <div>
       <div class="text-center">Crews</div>
+
       <div class="flex w-1/2 mx-auto bg-green-50">
         <div class="w-1/6 border text-center">Boat</div>
         <div class="w-1/6 border text-center">1</div>
@@ -91,7 +92,8 @@
         <div class="w-1/6 border text-center">4</div>
         <div class="w-1/6 border text-center">cox</div>
       </div>
-      <div class="flex w-1/2 mx-auto bg-blue-50">
+
+      <div class="flex w-1/2 mx-auto bg-green-50">
         <div class="w-1/6 border px-2">
           <input type="text" class="w-full" />
         </div>
@@ -111,7 +113,8 @@
           <input type="text" class="w-full" />
         </div>
       </div>
-      <div class="flex w-1/2 mx-auto bg-blue-50">
+
+      <div class="flex w-1/2 mx-auto bg-green-50">
         <div class="w-1/6 border px-2">
           <input type="text" class="w-full" />
         </div>
@@ -131,7 +134,8 @@
           <input type="text" class="w-full" />
         </div>
       </div>
-      <div class="flex w-1/2 mx-auto bg-blue-50">
+
+      <div class="flex w-1/2 mx-auto bg-green-50">
         <div class="w-1/6 border px-2">
           <input type="text" class="w-full" />
         </div>
@@ -151,7 +155,8 @@
           <input type="text" class="w-full" />
         </div>
       </div>
-      <div class="flex w-1/2 mx-auto bg-blue-50">
+
+      <div class="flex w-1/2 mx-auto bg-green-50">
         <div class="w-1/6 border px-2">
           <input type="text" class="w-full" />
         </div>
@@ -171,7 +176,8 @@
           <input type="text" class="w-full" />
         </div>
       </div>
-      <div class="flex w-1/2 mx-auto bg-blue-50">
+
+      <div class="flex w-1/2 mx-auto bg-green-50">
         <div class="w-1/6 border px-2">
           <input type="text" class="w-full" />
         </div>
@@ -191,7 +197,8 @@
           <input type="text" class="w-full" />
         </div>
       </div>
-      <div class="flex w-1/2 mx-auto bg-blue-50">
+
+      <div class="flex w-1/2 mx-auto bg-green-50">
         <div class="w-1/6 border px-2">
           <input type="text" class="w-full" />
         </div>
@@ -211,7 +218,8 @@
           <input type="text" class="w-full" />
         </div>
       </div>
-      <div class="flex w-1/2 mx-auto bg-blue-50">
+
+      <div class="flex w-1/2 mx-auto bg-green-50">
         <div class="w-1/6 border px-2">
           <input type="text" class="w-full" />
         </div>
@@ -231,7 +239,8 @@
           <input type="text" class="w-full" />
         </div>
       </div>
-      <div class="flex w-1/2 mx-auto bg-blue-50">
+
+      <div class="flex w-1/2 mx-auto bg-green-50">
         <div class="w-1/6 border px-2">
           <input type="text" class="w-full" />
         </div>
@@ -251,7 +260,8 @@
           <input type="text" class="w-full" />
         </div>
       </div>
-      <div class="flex w-1/2 mx-auto bg-blue-50">
+
+      <div class="flex w-1/2 mx-auto bg-green-50">
         <div class="w-1/6 border px-2">
           <input type="text" class="w-full" />
         </div>
@@ -271,7 +281,8 @@
           <input type="text" class="w-full" />
         </div>
       </div>
-      <div class="flex w-1/2 mx-auto bg-blue-50">
+
+      <div class="flex w-1/2 mx-auto bg-green-50">
         <div class="w-1/6 border px-2">
           <input type="text" class="w-full" />
         </div>
@@ -295,6 +306,13 @@
     <!-- Outing Plan -->
     <div>
       <div class="text-center">Outing Plan</div>
+      <div class="flex w-1/2 mx-auto bg-yellow-50">
+        <textarea class="w-full border" rows="5"></textarea>
+      </div>
+    </div>
+    <!-- Training Results -->
+    <div>
+      <div class="text-center">Training Results</div>
       <div class="flex w-1/2 mx-auto bg-yellow-50">
         <textarea class="w-full border" rows="5"></textarea>
       </div>
