@@ -104,12 +104,22 @@
         <textarea class="w-full border" rows="5"></textarea>
       </div>
     </div>
+    <!-- Submit -->
+    <div class="m-auto w-1/2 my-2">
+      <button
+        @click="submit"
+        class="p-2 w-full bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white border border-indigo-500 hover:border-transparent rounded"
+      >
+        Submit
+      </button>
+    </div>
   </div>
 </template>
 
 <script>
 import { reactive } from "vue";
 export default {
+  props: ["sessionDate"],
   setup() {
     const weather = reactive({
       time: "",
@@ -138,7 +148,11 @@ export default {
       athlete15: "",
     });
 
-    return { weather, attendees };
+    const submit = async () => {
+      // submit S&C Session
+    };
+
+    return { weather, attendees, submit };
   },
 };
 </script>

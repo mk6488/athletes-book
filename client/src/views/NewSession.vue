@@ -36,13 +36,13 @@
     <!-- SESSIONS -->
     <section class="mb-10">
       <div class="flex justify-center" v-if="sessionType === 'water'">
-        <WaterSession />
+        <WaterSession :sessionDate="sessionDate" />
       </div>
       <div class="flex justify-center" v-else-if="sessionType === 'sc'">
-        <SCSession />
+        <SCSession :sessionDate="sessionDate" />
       </div>
       <div class="flex justify-center" v-else-if="sessionType === 'erg'">
-        <ErgSession />
+        <ErgSession :sessionDate="sessionDate" />
       </div>
     </section>
   </div>
