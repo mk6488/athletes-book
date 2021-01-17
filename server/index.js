@@ -15,6 +15,8 @@ const wellness = require('./routes/api/wellness')
 const tests = require('./routes/api/tests')
 const comments = require('./routes/api/comments')
 const waterSessions = require('./routes/api/water-sessions')
+const ergSessions = require('./routes/api/erg-sessions')
+const scSessions = require('./routes/api/sc-sessions')
 
 app.use('/api/training-loads', trainingLoads)
 app.use('/api/users', users)
@@ -23,6 +25,8 @@ app.use('/api/wellness', wellness)
 app.use('/api/tests', tests)
 app.use('/api/comments', comments)
 app.use('/api/water-sessions', waterSessions)
+app.use('/api/erg-sessions', ergSessions)
+app.use('/api/sc-sessions', scSessions)
 
 // Handle production
 if (process.env.node_ENV === 'production') {

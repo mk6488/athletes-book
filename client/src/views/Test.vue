@@ -120,6 +120,7 @@
 
 <script>
 import { ref, reactive, computed, onMounted } from "vue";
+import { correct } from "../js/helpers";
 import TestModal from "../components/TestModal";
 import UpdateTestModal from "../components/UpdateTestModal";
 import TestService from "../services/TestService";
@@ -141,11 +142,6 @@ export default {
     const testsCount = computed({
       get: () => state.tests.length,
     });
-
-    const correct = (date) => {
-      const part = date.split("-");
-      return `${part[2]}/${part[1]}/${part[0]}`;
-    };
 
     const reloadData = async () => {
       state.tests = await TestService.getAll();

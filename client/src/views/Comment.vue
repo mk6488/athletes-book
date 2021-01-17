@@ -127,6 +127,7 @@
 
 <script>
 import { ref, reactive, computed, onMounted } from "vue";
+import { correct } from "../js/helpers";
 import CommentModal from "../components/CommentModal";
 import UpdateCommentModal from "../components/UpdateCommentModal";
 import CommentService from "../services/CommentService";
@@ -166,11 +167,6 @@ export default {
     const deletePressed = async (id) => {
       await CommentService.deleteOne(id);
       state.comments = await CommentService.getAll();
-    };
-
-    const correct = (date) => {
-      const part = date.split("-");
-      return `${part[2]}/${part[1]}/${part[0]}`;
     };
 
     onMounted(async () => {

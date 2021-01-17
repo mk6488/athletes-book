@@ -136,6 +136,7 @@
 
 <script>
 import { ref, reactive, computed, onMounted } from "vue";
+import { correct } from "../js/helpers";
 import LoadModal from "../components/LoadModal";
 import UpdateLoadModal from "../components/UpdateLoadModal";
 import TrainingLoadService from "../services/TrainingLoadService";
@@ -157,11 +158,6 @@ export default {
     const trainingLoadsCount = computed({
       get: () => state.trainingLoads.length,
     });
-
-    const correct = (date) => {
-      const part = date.split("-");
-      return `${part[2]}/${part[1]}/${part[0]}`;
-    };
 
     const reloadData = async () => {
       state.trainingLoads = await TrainingLoadService.getAll();

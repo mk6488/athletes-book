@@ -33,9 +33,10 @@ class WaterSessionService {
   // }
 
   // Create
-  static createOne(sessionDate, cancelled, weather, launch1, launch2, boat1, boat2, boat3, boat4, boat5, boat6, boat7, boat8, boat9, outingPlan, trainingResults, nextOuting, incident) {
+  static createOne(sessionDate, weekNumber, cancelled, weather, launch1, launch2, boat1, boat2, boat3, boat4, boat5, boat6, boat7, boat8, boat9, outingPlan, trainingResults, nextOuting, incident) {
     return axios.post('water-sessions', {
       sessionDate,
+      weekNumber,
       cancelled,
       weather,
       launch1,
@@ -57,9 +58,10 @@ class WaterSessionService {
   }
 
   // Update
-  static updateOne(id, sessionDate, cancelled, weather, launch1, launch2, boat1, boat2, boat3, boat4, boat5, boat6, boat7, boat8, boat9, outingPlan, trainingResults, nextOuting, incident) {
+  static updateOne(id, sessionDate, weekNumber, cancelled, weather, launch1, launch2, boat1, boat2, boat3, boat4, boat5, boat6, boat7, boat8, boat9, outingPlan, trainingResults, nextOuting, incident) {
     return axios.put(`water-sessions/${id}`, {
       sessionDate,
+      weekNumber,
       cancelled,
       weather,
       launch1,

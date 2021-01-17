@@ -1,5 +1,22 @@
 <template>
   <div class="w-full my-10">
+    <!-- Cancelled -->
+    <div>
+      <div class="flex w-1/2 mx-auto">
+        <label class="flex items-center cursor-pointer">
+          <div class="px-2">Cancelled</div>
+          <div class="relative">
+            <input type="checkbox" class="hidden" v-model="cancelled" />
+            <div
+              class="toggle-path bg-gray-200 w-9 h-5 rounded-full shadow-inner"
+            ></div>
+            <div
+              class="toggle-circle absolute w-3.5 h-3.5 bg-white rounded-full shadow inset-y-0 left-0"
+            ></div>
+          </div>
+        </label>
+      </div>
+    </div>
     <!-- Weather -->
     <div>
       <div class="text-center">Weather</div>
@@ -94,14 +111,33 @@
     <div>
       <div class="text-center">Training Plan</div>
       <div class="flex w-1/2 mx-auto bg-yellow-50">
-        <textarea class="w-full border" rows="5"></textarea>
+        <textarea
+          class="w-full border"
+          rows="5"
+          v-model="trainingPlan"
+        ></textarea>
       </div>
     </div>
     <!-- Training Results -->
     <div>
       <div class="text-center">Training Results</div>
       <div class="flex w-1/2 mx-auto bg-yellow-50">
-        <textarea class="w-full border" rows="5"></textarea>
+        <textarea
+          class="w-full border"
+          rows="5"
+          v-model="trainingResults"
+        ></textarea>
+      </div>
+    </div>
+    <!-- Incident -->
+    <div>
+      <div class="text-center text-red-500">Incident</div>
+      <div class="flex w-1/2 mx-auto bg-yellow-50">
+        <textarea
+          class="w-full border border-red-500"
+          rows="2"
+          v-model="incident"
+        ></textarea>
       </div>
     </div>
     <!-- Submit -->
@@ -117,10 +153,14 @@
 </template>
 
 <script>
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
+import SCSessionService from "../services/SCSessionService";
+import { getWeekNumber } from "../js/helpers";
+
 export default {
   props: ["sessionDate"],
-  setup() {
+  setup(props) {
+    const cancelled = ref(false);
     const weather = reactive({
       time: "",
       wind: "",
@@ -129,7 +169,6 @@ export default {
       temps: "",
       qnh: "",
     });
-
     const attendees = reactive({
       athlete1: "",
       athlete2: "",
@@ -147,12 +186,33 @@ export default {
       athlete14: "",
       athlete15: "",
     });
+    const trainingPlan = ref("");
+    const trainingResults = ref("");
+    const incident = ref("");
 
     const submit = async () => {
-      // submit S&C Session
+      await SCSessionService.createOne(
+        props.sessionDate,
+        getWeekNumber(props.sessionDate),
+        cancelled.value,
+        weather,
+        attendees,
+        trainingPlan.value,
+        trainingResults.value,
+        incident.value
+      );
+      // goTo("/session");
     };
 
-    return { weather, attendees, submit };
+    return {
+      cancelled,
+      weather,
+      attendees,
+      trainingPlan,
+      trainingResults,
+      incident,
+      submit,
+    };
   },
 };
 </script>

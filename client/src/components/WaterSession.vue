@@ -1,5 +1,22 @@
 <template>
   <div class="w-full my-10">
+    <!-- Cancelled -->
+    <div>
+      <div class="flex w-1/2 mx-auto">
+        <label class="flex items-center cursor-pointer">
+          <div class="px-2">Cancelled</div>
+          <div class="relative">
+            <input type="checkbox" class="hidden" v-model="cancelled" />
+            <div
+              class="toggle-path bg-gray-200 w-9 h-5 rounded-full shadow-inner"
+            ></div>
+            <div
+              class="toggle-circle absolute w-3.5 h-3.5 bg-white rounded-full shadow inset-y-0 left-0"
+            ></div>
+          </div>
+        </label>
+      </div>
+    </div>
     <!-- Weather -->
     <div>
       <div class="text-center">Weather</div>
@@ -325,6 +342,7 @@
         class="p-2 w-full bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white border border-indigo-500 hover:border-transparent rounded"
       >
         Submit
+        <router-link to="/new-session"></router-link>
       </button>
     </div>
   </div>
@@ -334,6 +352,7 @@
 import { reactive, ref } from "vue";
 import WaterSessionService from "../services/WaterSessionService";
 import { coachesArray } from "../js/coaches.js";
+import { getWeekNumber, goTo } from "../js/helpers";
 
 export default {
   props: ["sessionDate"],
@@ -434,9 +453,9 @@ export default {
     const incident = ref("");
 
     const submit = async () => {
-      // submit Water Session
       await WaterSessionService.createOne(
         props.sessionDate,
+        getWeekNumber(props.sessionDate),
         cancelled.value,
         weather,
         launch1,
@@ -455,6 +474,7 @@ export default {
         nextOuting.value,
         incident.value
       );
+      goTo("/session");
     };
 
     return {
@@ -483,4 +503,18 @@ export default {
 </script>
 
 <style>
+.toggle-path {
+  transition: background 0.3s ease-in-out;
+}
+.toggle-circle {
+  top: 0.2rem;
+  left: 0.25rem;
+  transition: all 0.3s ease-in-out;
+}
+input:checked ~ .toggle-circle {
+  transform: translateX(100%);
+}
+input:checked ~ .toggle-path {
+  background-color: #ed1a1a;
+}
 </style>

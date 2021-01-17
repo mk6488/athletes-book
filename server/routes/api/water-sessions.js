@@ -23,6 +23,7 @@ router.post('/', async (req, res) => {
   const collection = await waterSessionCollection()
   await collection.insertOne({
     sessionDate: req.body.sessionDate,
+    weekNumber: req.body.weekNumber,
     cancelled: req.body.cancelled,
     weather: req.body.weather,
     launch1: req.body.launch1,
@@ -53,6 +54,7 @@ router.put('/:id', async (req, res) => {
   }, {
     $set: {
       sessionDate: req.body.sessionDate,
+      weekNumber: req.body.weekNumber,
       cancelled: req.body.cancelled,
       weather: req.body.weather,
       launch1: req.body.launch1,

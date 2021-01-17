@@ -1,6 +1,9 @@
 import {
   computed
 } from "vue"
+import {
+  useRouter
+} from "vue-router";
 
 export const now = computed(() => {
   const parts = new Date().toLocaleString().split(",")[0].split("/");
@@ -24,4 +27,14 @@ Date.prototype.getWeek = function () {
 export const close = () => {
   this.$emit("close");
   this.$emit("fetch");
+};
+
+export const goTo = (path) => {
+  const router = useRouter();
+  router.push(path);
+}
+
+export const correct = (date) => {
+  const part = date.split("-");
+  return `${part[2]}/${part[1]}/${part[0]}`;
 };

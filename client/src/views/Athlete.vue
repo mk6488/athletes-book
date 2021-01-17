@@ -152,6 +152,7 @@
 
 <script>
 import { ref, reactive, computed, onMounted } from "vue";
+import { correct } from "../js/helpers";
 import AthleteModal from "../components/AthleteModal";
 import UpdateAthleteModal from "../components/UpdateAthleteModal";
 import AthleteService from "../services/AthleteService";
@@ -183,11 +184,6 @@ export default {
 
     const addPressed = () => {
       modalIsOpen.value = true;
-    };
-
-    const correct = (date) => {
-      const part = date.split("-");
-      return `${part[2]}/${part[1]}/${part[0]}`;
     };
 
     const toggleCurrent = async (id, current) => {

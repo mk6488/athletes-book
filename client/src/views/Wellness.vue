@@ -154,6 +154,7 @@
 
 <script>
 import { ref, reactive, computed, onMounted } from "vue";
+import { correct } from "../js/helpers";
 import WellnessModal from "../components/WellnessModal";
 import UpdateWellnessModal from "../components/UpdateWellnessModal";
 import WellnessService from "../services/WellnessService";
@@ -172,11 +173,6 @@ export default {
     const wellnessCount = computed({
       get: () => state.wellness.length,
     });
-
-    const correct = (date) => {
-      const part = date.split("-");
-      return `${part[2]}/${part[1]}/${part[0]}`;
-    };
 
     const reloadData = async () => {
       state.wellness = await WellnessService.getAll();
